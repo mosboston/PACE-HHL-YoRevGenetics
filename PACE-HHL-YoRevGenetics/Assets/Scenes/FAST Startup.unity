@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -131,6 +127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 577651254819016507, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 906122027004303102, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
+      value: 1801810542
+      objectReference: {fileID: 0}
     - target: {fileID: 1339179872246268264, guid: afada8287e1241b4582490549ffb0366, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -174,6 +178,30 @@ PrefabInstance:
     - target: {fileID: 2265323022163124505, guid: afada8287e1241b4582490549ffb0366, type: 3}
       propertyPath: m_Name
       value: Startup
+      objectReference: {fileID: 0}
+    - target: {fileID: 3089399249255105608, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867948193343596129, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: successEvent.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215562611945634881, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: settingsName
+      value: ActivitySettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215562611945634881, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: settingsScript
+      value: 
+      objectReference: {fileID: 11500000, guid: 7deaba1a5be2cc54eabdb3fad0bb1062, type: 3}
+    - target: {fileID: 5547607195549466499, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7210670311495710839, guid: afada8287e1241b4582490549ffb0366, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
