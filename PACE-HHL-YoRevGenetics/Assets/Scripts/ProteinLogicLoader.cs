@@ -24,8 +24,6 @@ public class ProteinLogicLoader : StartupLoader
 
         if(!ReadProteinLogic())
         {
-            errorTitle = "File not accessible!";
-            errorMessage = "The protein logic file cannot be read. The XML may be incorrectly formatted or malformed.";
             Debug.LogError($"\nERROR\n{errorTitle}\n{errorMessage}\n");
             errorEvent.Invoke(errorTitle, errorMessage);
             yield break;
@@ -39,6 +37,7 @@ public class ProteinLogicLoader : StartupLoader
     private bool ReadProteinLogic()
     {
         bool result = true;
+        List<ProteinLogicBlock> proteinLogicBlocks;
 
         try
         {
@@ -47,13 +46,42 @@ public class ProteinLogicLoader : StartupLoader
             FileStream stream;
             serializer = new XmlSerializer(type, new XmlRootAttribute("ProteinLogic"));
             stream = new FileStream(proteinLogicPath, FileMode.Open);
-            Application.settings.proteinLogic = serializer.Deserialize(stream) as List<ProteinLogicBlock>;
+            proteinLogicBlocks = serializer.Deserialize(stream) as List<ProteinLogicBlock>;
             stream.Close();
+
+            List<ProteinLogicBlock> defaultBlocks = proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.DEFAULT);
+
+            if (defaultBlocks.Count < 1)
+            {
+                errorTitle = "No default action found!";
+                errorMessage = "There must be 1 Protein Logic Block with a block type of Default";
+                return false;
+            }
+            if (defaultBlocks.Count > 1)
+            {
+                errorTitle = "More than one default action found!";
+                errorMessage = "There must be only 1 Protein Logic Block with a block type of Default";
+                return false;
+            }
+            if (string.IsNullOrEmpty(defaultBlocks[0].action))
+            {
+                errorTitle = "No action assigned to default logic block!";
+                errorMessage = "The default logic block was found but is missing an action";
+                return false;
+            }
+
+            Application.settings.defaultAction = defaultBlocks[0].action;
+            proteinLogicBlocks.Remove(defaultBlocks[0]);
+
+            Application.settings.proteinLogic = proteinLogicBlocks;
         }
         catch (Exception exception)
         {
             Debug.Log("Couldn't read protein logic file.");
             Debug.Log(exception.Message);
+
+            errorTitle = "File not accessible!";
+            errorMessage = $"The protein logic file cannot be read. The XML may be incorrectly formatted or malformed.\n\tException: {exception.Message}";
             result = false;
         }
 

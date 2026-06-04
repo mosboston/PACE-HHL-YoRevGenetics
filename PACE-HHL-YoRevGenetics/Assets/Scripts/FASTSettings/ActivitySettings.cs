@@ -6,6 +6,7 @@ using FAST;
 public class ActivitySettings : BaseSettings
 {
     public List<ProteinLogicBlock> proteinLogic;
+    public string defaultAction;
 
     public ProteinLogicBlock FindLogicBlock(string blockName)
     {
