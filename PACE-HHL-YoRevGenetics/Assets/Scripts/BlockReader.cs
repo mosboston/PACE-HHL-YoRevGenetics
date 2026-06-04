@@ -9,7 +9,7 @@ public class BlockReader : MonoBehaviour
     public static UnityAction onStartedReading;
     public static UnityAction onCompletedReading;
 
-    List<Block> readBlocks;
+    List<Block> readBlocks = new();
 
     bool reading = false;
 
