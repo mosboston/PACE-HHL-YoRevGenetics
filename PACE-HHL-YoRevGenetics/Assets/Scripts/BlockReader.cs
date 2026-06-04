@@ -8,7 +8,7 @@ using UnityEngine.Events;
 public class BlockReader : MonoBehaviour
 {
     public UnityEvent onStartedReading;
-    public UnityEvent<List<Block>> onCompletedReading;
+    public UnityEvent<List<string>> onCompletedReading;
 
     List<Block> readBlocks = new();
 
@@ -39,7 +39,7 @@ public class BlockReader : MonoBehaviour
             if (reading)
             {
                 reading = false;
-                onCompletedReading?.Invoke(readBlocks.ToList());
+                onCompletedReading?.Invoke(readBlocks.Select(b => b.blockName).ToList());
                 readBlocks.Clear();
             }
             else

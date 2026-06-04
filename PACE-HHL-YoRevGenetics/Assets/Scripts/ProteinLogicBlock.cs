@@ -3,7 +3,7 @@ using System;
 [Serializable]
 public class ProteinLogicBlock
 {
-    public enum BlockType { IF, NESTED, DEFAULT }
+    public enum BlockType { ELSE, IF, NESTED, DEFAULT }
 
     public BlockType blockType;
     public string pieceName;

@@ -8,8 +8,10 @@ public class ProteinPiece : MonoBehaviour
 {
     [SerializeField] string imageFileExtension = ".png";
 
-    ProteinLogicBlock logicBlock;
+    public ProteinLogicBlock LogicBlock { get; private set; }
     ImageFromFile image;
+
+    public string BlockName { get => LogicBlock.pieceName; }
 
     private void Awake()
     {
@@ -18,8 +20,20 @@ public class ProteinPiece : MonoBehaviour
 
     public void SetLogicBlock(string logicBlockName)
     {
-        logicBlock = Application.settings.FindLogicBlock(logicBlockName);
+        LogicBlock = Application.settings.FindLogicBlock(logicBlockName);
+        if (LogicBlock == null)
+        {
+            LogicBlock = new()
+            {
+                blockType = ProteinLogicBlock.BlockType.ELSE,
+                pieceName = logicBlockName,
+                action = Application.settings.defaultAction,
+            };
+        }
+
         image.baseFileName = logicBlockName + imageFileExtension;
         image.Load(Application.language);
+
+        name = logicBlockName;
     }
 }

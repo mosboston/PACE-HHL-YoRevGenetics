@@ -50,7 +50,6 @@ public class ProteinLogicLoader : StartupLoader
             stream.Close();
 
             List<ProteinLogicBlock> defaultBlocks = proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.DEFAULT);
-
             if (defaultBlocks.Count < 1)
             {
                 errorTitle = "No default action found!";
@@ -73,7 +72,9 @@ public class ProteinLogicLoader : StartupLoader
             Application.settings.defaultAction = defaultBlocks[0].action;
             proteinLogicBlocks.Remove(defaultBlocks[0]);
 
-            Application.settings.proteinLogic = proteinLogicBlocks;
+            proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);
+
+            Application.settings.orderedProteinLogic = proteinLogicBlocks;
         }
         catch (Exception exception)
         {
