@@ -8,5 +8,5 @@ public class ProteinLogicBlock
     public BlockType blockType;
     public string pieceName;
     public string action;
-    public float angle = 0;
+    public float? angle = null;
 }

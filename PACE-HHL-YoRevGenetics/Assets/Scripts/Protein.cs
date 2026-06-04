@@ -32,40 +32,51 @@ public class Protein : MonoBehaviour
 
     public void DoAction()
     {
-        string action = ResolveAction();
+        var (action, angle) = ResolveAction();
+
+        print(angle);
 
         if (string.IsNullOrEmpty(action))
         {
             Debug.LogError("No action given to perform!");
             return;
         }
+
+        switch (action)
+        {
+            default:
+                Debug.LogError($"Action '{action}' not implemented!");
+                break;
+        }
     }
 
-    public string ResolveAction()
+    public (string action, float? angle) ResolveAction()
     {
         if (ProteinPieces == null || ProteinPieces.Count == 0)
         {
             Debug.LogWarning("Attempted to resolve action before protein built");
-            return null;
+            return (null, null);
         }
 
-        string action = Application.settings.defaultAction;
+        string action = null;
+        float? angle = null;
         foreach (ProteinLogicBlock logicBlock in Application.settings.orderedProteinLogic)
         {
             if (ProteinContainsPiece(logicBlock.pieceName))
             {
-                string newAction = ParseAction(logicBlock.action);
+                angle ??= logicBlock.angle;
 
-                if (!string.IsNullOrEmpty(newAction))
+                if (action == null)
                 {
-                    action = newAction;
-                    break;
+                    string newAction = ParseAction(logicBlock.action);
+                    if (!string.IsNullOrEmpty(newAction))
+                        action = newAction;
                 }
             }
         }
 
         Debug.Log(action);
-        return action;
+        return (action, angle);
     }
 
     private string ParseAction(string action)
