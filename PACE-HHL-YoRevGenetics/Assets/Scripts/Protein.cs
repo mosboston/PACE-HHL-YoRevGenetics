@@ -1,8 +1,9 @@
+using FAST;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using FAST;
-
+using static UnityEngine.GraphicsBuffer;
 using Application = FAST.Application;
 
 public class Protein : MonoBehaviour
@@ -42,12 +43,27 @@ public class Protein : MonoBehaviour
             return;
         }
 
+        StartCoroutine(DoActionCoroutine(action, angle));
+    }
+
+    private IEnumerator DoActionCoroutine(string action, float? angle)
+    {
+        if (angle.HasValue)
+        {
+            if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBindingSite, out Vector2 target))
+                yield return OrientTowardsWithAngle(angle.Value, target, 1);
+            else
+                Debug.LogError($"Not orienting because '{PointsOfInterest.kBindingSite}' was not set");
+        }
+
         switch (action)
         {
             default:
-                Debug.LogError($"Action '{action}' not implemented!");
+                //Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
                 break;
         }
+
+        yield return null;
     }
 
     public (string action, float? angle) ResolveAction()
@@ -134,5 +150,28 @@ public class Protein : MonoBehaviour
         }
         ProteinPieces.Clear();
         transform.position = homePosition;
+    }
+
+    public IEnumerator OrientTowardsWithAngle(float angle, Vector2 target, float animationLength)
+    {
+        Vector2 towardsTarget = target - (Vector2)transform.position;
+        float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
+
+        float currentAngle = Rotation;
+        float targetAngle = Rotation - angleToTarget + angle;
+
+        if (Mathf.Approximately(currentAngle, targetAngle))
+            yield break;
+
+        float time = 0;
+
+        while (time < animationLength)
+        {
+            float t = Mathf.InverseLerp(0, animationLength, time);
+            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
     }
 }
