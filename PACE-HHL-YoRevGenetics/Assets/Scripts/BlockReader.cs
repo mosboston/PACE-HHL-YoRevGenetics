@@ -1,13 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Collider2D))]
 public class BlockReader : MonoBehaviour
 {
-    public static UnityAction onStartedReading;
-    public static UnityAction onCompletedReading;
+    public UnityEvent onStartedReading;
+    public UnityEvent<List<Block>> onCompletedReading;
 
     List<Block> readBlocks = new();
 
@@ -38,7 +39,7 @@ public class BlockReader : MonoBehaviour
             if (reading)
             {
                 reading = false;
-                onCompletedReading?.Invoke();
+                onCompletedReading?.Invoke(readBlocks.ToList());
                 readBlocks.Clear();
             }
             else
