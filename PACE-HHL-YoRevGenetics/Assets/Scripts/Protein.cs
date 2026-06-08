@@ -47,27 +47,19 @@ public class Protein : MonoBehaviour
         StartCoroutine(DoActionCoroutine(action, angle));
     }
 
-    public void OrientTowardsWithAngle(float angle, Vector2 target, float animationLength)
-    {
-        StartCoroutine(OrientTowardsWithAngleCoroutine(angle, target, animationLength));
-    }
-
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
-        if (angle.HasValue)
-        {
-            if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBindingSite, out Vector2 target))
-                yield return OrientTowardsWithAngleCoroutine(angle.Value, target, animationLength);
-            else
-                Debug.LogError($"Not orienting because '{PointsOfInterest.kBindingSite}' was not set");
-        }
+        //if (angle.HasValue)
+        //{
+        //    yield return OrientToAngleCoroutine(angle.Value, animationLength);
+        //}
 
         switch (action)
         {
             case "win":
-                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out Vector2 target))
+                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out RectTransform target))
                 {
-                    yield return MoveTo(target, animationLength);
+                    yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength);
                 }
                 break;
 
@@ -79,46 +71,54 @@ public class Protein : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator OrientTowardsWithAngleCoroutine(float angle, Vector2 target, float animationLength)
+    private IEnumerator MoveToRectTransformWithAngle(RectTransform transform, float angle, float animationLength)
     {
-        Vector2 towardsTarget = target - Position;
-        float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
+        Vector2 currentPosition = Position;
+        float currentRotation = Rotation;
 
+        Vector2 targetPosition = transform.position;
+        float targetRotation = transform.localEulerAngles.z - angle;
+
+        float time = 0;
+
+        while (time < animationLength)
+        {
+            float t = time / animationLength;
+            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+
+            Rotation = Mathf.LerpAngle(currentRotation, targetRotation, t);
+            Position = Vector2.Lerp(currentPosition, targetPosition, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator OrientToAngleCoroutine(float angle, float animationLength)
+    {
         float currentAngle = Rotation;
-        float targetAngle = Rotation - angleToTarget + angle;
+        float targetAngle = angle;
 
         currentAngle %= 360.0f;
+        if (currentAngle < 0)
+            currentAngle += 360;
+
         targetAngle %= 360.0f;
+        if (targetAngle < 0)
+            targetAngle += 360;
 
         if (Mathf.Approximately(currentAngle, targetAngle))
             yield break;
 
         float time = 0;
 
-        print(angle);
-
         while (time < animationLength)
         {
-            Debug.DrawRay(Position, new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 100, Color.red);
             float t = time / animationLength;
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
+
             Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
 
-    private IEnumerator MoveTo(Vector2 targetPosition, float animationLength)
-    {
-        Vector2 currentPosition = Position;
-
-        float time = 0;
-
-        while (time < animationLength)
-        {
-            float t = time / animationLength;
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            Position = Vector2.Lerp(currentPosition, targetPosition, t);
             time += Time.deltaTime;
             yield return null;
         }

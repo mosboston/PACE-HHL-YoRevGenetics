@@ -14,7 +14,7 @@ public class ActivitySettings : BaseSettings
     public string defaultAction;
 
     [XmlIgnore]
-    public Dictionary<string, Vector2> pointsOfInterest = new();
+    public Dictionary<string, RectTransform> pointsOfInterest = new();
 
     public ProteinLogicBlock FindLogicBlock(string blockName)
     {

@@ -18,20 +18,16 @@ public class PointsOfInterest : MonoBehaviour
 
     [SerializeField] List<KeyPoint> pointsOfInterest;
 
-    public const string kBindingSite = "BindingSite";
     public const string kProteinWinSpot = "ProteinWinSpot";
 
     private void Start()
     {
-        Dictionary<string, Vector2> actualPointsOfInterest = new();
+        Dictionary<string, RectTransform> actualPointsOfInterest = new();
 
         foreach (KeyPoint keyPoint in pointsOfInterest)
         {
-            actualPointsOfInterest.Add(keyPoint.key, keyPoint.point.position);
+            actualPointsOfInterest.Add(keyPoint.key, keyPoint.point);
         }
-
-        if (!actualPointsOfInterest.ContainsKey(kBindingSite))
-            Debug.LogError($"Expected '{kBindingSite}' to be a point of interest but it was not found!");
 
         Application.settings.pointsOfInterest = actualPointsOfInterest;
     }
