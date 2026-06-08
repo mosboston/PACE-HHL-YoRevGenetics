@@ -50,49 +50,4 @@
       <scale xyz="0.1297363" />
     </AlignmentTransformSettings>
   </alignmentSettings>
-  <orderedProteinLogic>
-    <ProteinLogicBlock>
-      <blockType>IF</blockType>
-      <pieceName>misfold</pieceName>
-      <action>separate</action>
-      <angle xsi:nil="true" />
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>IF</blockType>
-      <pieceName>sword</pieceName>
-      <action>kill</action>
-      <angle>32</angle>
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>IF</blockType>
-      <pieceName>bubble</pieceName>
-      <action>bounce</action>
-      <angle xsi:nil="true" />
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>NESTED</blockType>
-      <pieceName>key</pieceName>
-      <action>IF umbrella THEN fail ELSE win</action>
-      <angle>296</angle>
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>IF</blockType>
-      <pieceName>key_extra</pieceName>
-      <action>win</action>
-      <angle>90</angle>
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>NESTED</blockType>
-      <pieceName>square</pieceName>
-      <action>IF circle THEN win ELSE fail</action>
-      <angle>243</angle>
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
-      <blockType>IF</blockType>
-      <pieceName>circle</pieceName>
-      <action>win</action>
-      <angle>243</angle>
-    </ProteinLogicBlock>
-  </orderedProteinLogic>
-  <defaultAction>fail</defaultAction>
 </ActivitySettings>

@@ -8,7 +8,9 @@ using Application = FAST.Application;
 
 public class ActivitySettings : BaseSettings
 {
+    [XmlIgnore]
     public List<ProteinLogicBlock> orderedProteinLogic;
+    [XmlIgnore]
     public string defaultAction;
 
     [XmlIgnore]
