@@ -1,0 +1,101 @@
+<?xml version="1.0"?>
+<ActivitySettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <activityId>YoRevGenetics</activityId>
+  <logSettings>
+    <isLogging>true</isLogging>
+    <numberOfLogs>10</numberOfLogs>
+  </logSettings>
+  <assetSettings>
+    <languages>
+      <string>EN</string>
+    </languages>
+    <prefixFileName />
+    <suffixFileName />
+    <prefixErrorMessage />
+    <replacementErrorMessage />
+    <suffixErrorMessage />
+  </assetSettings>
+  <displaySettings>
+    <numberOfDisplays>1</numberOfDisplays>
+    <prefixErrorMessage />
+    <replacementErrorMessage />
+    <suffixErrorMessage />
+  </displaySettings>
+  <whiteScreenSettings>
+    <onScreenMessage />
+    <durationMinutes>0</durationMinutes>
+    <isTouchInput>false</isTouchInput>
+    <isMouseInput>false</isMouseInput>
+    <isAxisInput>false</isAxisInput>
+    <isKeypressInput>false</isKeypressInput>
+    <isSerialInput>false</isSerialInput>
+    <serialInputCount>10</serialInputCount>
+    <isUdpInput>false</isUdpInput>
+    <udpInputCount>1</udpInputCount>
+  </whiteScreenSettings>
+  <alignmentSettings>
+    <AlignmentRectTransformSettings name="PieceParent">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.2702637" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ProteinImage">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.1351318" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="Protein">
+      <position x="0" y="37.83789" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+  </alignmentSettings>
+  <orderedProteinLogic>
+    <ProteinLogicBlock>
+      <blockType>IF</blockType>
+      <pieceName>misfold</pieceName>
+      <action>separate</action>
+      <angle xsi:nil="true" />
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>IF</blockType>
+      <pieceName>sword</pieceName>
+      <action>kill</action>
+      <angle>32</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>IF</blockType>
+      <pieceName>bubble</pieceName>
+      <action>bounce</action>
+      <angle xsi:nil="true" />
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>NESTED</blockType>
+      <pieceName>key</pieceName>
+      <action>IF umbrella THEN fail ELSE win</action>
+      <angle>296</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>IF</blockType>
+      <pieceName>key_extra</pieceName>
+      <action>win</action>
+      <angle>90</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>NESTED</blockType>
+      <pieceName>square</pieceName>
+      <action>IF circle THEN win ELSE fail</action>
+      <angle>243</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+      <blockType>IF</blockType>
+      <pieceName>circle</pieceName>
+      <action>win</action>
+      <angle>243</angle>
+    </ProteinLogicBlock>
+  </orderedProteinLogic>
+  <defaultAction>fail</defaultAction>
+</ActivitySettings>

@@ -1,0 +1,69 @@
+<?xml version="1.0"?>
+<ProteinLogic xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <ProteinLogicBlock>
+        <blockType>IF</blockType>
+        <pieceName>misfold</pieceName>
+        <action>separate</action>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>IF</blockType>
+        <pieceName>sword</pieceName>
+        <action>kill</action>
+        <angle>32</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>IF</blockType>
+        <pieceName>bubble</pieceName>
+        <action>bounce</action>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>NESTED</blockType>
+        <pieceName>key</pieceName>
+        <action>IF umbrella THEN fail ELSE win</action>
+        <angle>296</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>IF</blockType>
+        <pieceName>key_extra</pieceName>
+        <action>win</action>
+        <angle>90</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>NESTED</blockType>
+        <pieceName>square</pieceName>
+        <action>IF circle THEN win ELSE fail</action>
+        <angle>243</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>IF</blockType>
+        <pieceName>circle</pieceName>
+        <action>win</action>
+        <angle>243</angle>
+    </ProteinLogicBlock>
+    
+    <ProteinLogicBlock>
+        <blockType>ELSE</blockType>
+        <pieceName>umbrella</pieceName>
+        <angle>270</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>ELSE</blockType>
+        <pieceName>legs</pieceName>
+        <angle>180</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>ELSE</blockType>
+        <pieceName>tail</pieceName>
+        <angle>135</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
+        <blockType>ELSE</blockType>
+        <pieceName>wrong_shapes</pieceName>
+        <angle>180</angle>
+    </ProteinLogicBlock>
+    
+    <ProteinLogicBlock>
+        <blockType>DEFAULT</blockType>
+        <action>fail</action>
+    </ProteinLogicBlock>
+</ProteinLogic>
