@@ -2,11 +2,14 @@ using FAST;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 using Application = FAST.Application;
 
 public class Protein : MonoBehaviour
 {
+    [SerializeField] float animationLength = 1;
     [SerializeField] ProteinPiece proteinPiecePrefab;
     [SerializeField] Transform proteinPieceParent;
 
@@ -23,6 +26,12 @@ public class Protein : MonoBehaviour
     {
         get => transform.localEulerAngles.z;
         set => transform.localEulerAngles = new(transform.localEulerAngles.x, transform.localEulerAngles.y, value);
+    }
+
+    public Vector2 Position
+    {
+        get => transform.position;
+        set => transform.position = value;
     }
 
     public void DoAction()
@@ -48,13 +57,20 @@ public class Protein : MonoBehaviour
         if (angle.HasValue)
         {
             if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBindingSite, out Vector2 target))
-                yield return OrientTowardsWithAngleCoroutine(angle.Value, target, 1);
+                yield return OrientTowardsWithAngleCoroutine(angle.Value, target, animationLength);
             else
                 Debug.LogError($"Not orienting because '{PointsOfInterest.kBindingSite}' was not set");
         }
 
         switch (action)
         {
+            case "win":
+                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out Vector2 target))
+                {
+                    yield return MoveTo(target, animationLength);
+                }
+                break;
+
             default:
                 Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
                 break;
@@ -65,7 +81,7 @@ public class Protein : MonoBehaviour
 
     private IEnumerator OrientTowardsWithAngleCoroutine(float angle, Vector2 target, float animationLength)
     {
-        Vector2 towardsTarget = (Vector2)transform.position - target;
+        Vector2 towardsTarget = target - Position;
         float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
 
         float currentAngle = Rotation;
@@ -79,11 +95,30 @@ public class Protein : MonoBehaviour
 
         float time = 0;
 
+        print(angle);
+
+        while (time < animationLength)
+        {
+            Debug.DrawRay(Position, new Vector3(Mathf.Cos(angle), Mathf.Sin(angle)) * 100, Color.red);
+            float t = time / animationLength;
+            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator MoveTo(Vector2 targetPosition, float animationLength)
+    {
+        Vector2 currentPosition = Position;
+
+        float time = 0;
+
         while (time < animationLength)
         {
             float t = time / animationLength;
             t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
+            Position = Vector2.Lerp(currentPosition, targetPosition, t);
             time += Time.deltaTime;
             yield return null;
         }

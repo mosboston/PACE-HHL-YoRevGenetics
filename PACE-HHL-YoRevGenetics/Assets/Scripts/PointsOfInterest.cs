@@ -19,6 +19,7 @@ public class PointsOfInterest : MonoBehaviour
     [SerializeField] List<KeyPoint> pointsOfInterest;
 
     public const string kBindingSite = "BindingSite";
+    public const string kProteinWinSpot = "ProteinWinSpot";
 
     private void Start()
     {
@@ -26,7 +27,7 @@ public class PointsOfInterest : MonoBehaviour
 
         foreach (KeyPoint keyPoint in pointsOfInterest)
         {
-            actualPointsOfInterest.Add(keyPoint.key, keyPoint.point.anchoredPosition);
+            actualPointsOfInterest.Add(keyPoint.key, keyPoint.point.position);
         }
 
         if (!actualPointsOfInterest.ContainsKey(kBindingSite))
