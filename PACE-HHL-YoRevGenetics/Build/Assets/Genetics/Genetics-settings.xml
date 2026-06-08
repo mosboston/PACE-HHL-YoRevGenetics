@@ -34,24 +34,21 @@
     <udpInputCount>1</udpInputCount>
   </whiteScreenSettings>
   <alignmentSettings>
-    <AlignmentRectTransformSettings name="PieceParent">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="-0.2702637" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="ProteinImage">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="-0.1351318" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="Protein">
-      <position x="0" y="37.83789" z="0" />
+    <AlignmentTransformSettings name="Protein">
+      <position x="0" y="-29.34" z="0" />
       <rotation z="0" />
       <scale xyz="0" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
+    </AlignmentTransformSettings>
+    <AlignmentTransformSettings name="ProteinImage">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.0351318" />
+    </AlignmentTransformSettings>
+    <AlignmentTransformSettings name="PieceParent">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0.1297363" />
+    </AlignmentTransformSettings>
   </alignmentSettings>
   <orderedProteinLogic>
     <ProteinLogicBlock>

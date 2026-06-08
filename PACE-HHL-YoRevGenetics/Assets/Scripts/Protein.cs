@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using Application = FAST.Application;
 
 public class Protein : MonoBehaviour
@@ -18,17 +17,12 @@ public class Protein : MonoBehaviour
         return ProteinPieces.Exists(p => p.LogicBlock.pieceName.Equals(pieceName));
     }
 
-    Vector3 homePosition;
+    Vector3? homePosition;
 
     public float Rotation
     {
         get => transform.localEulerAngles.z;
         set => transform.localEulerAngles = new(transform.localEulerAngles.x, transform.localEulerAngles.y, value);
-    }
-
-    private void Awake()
-    {
-        homePosition = transform.position;
     }
 
     public void DoAction()
@@ -46,12 +40,17 @@ public class Protein : MonoBehaviour
         StartCoroutine(DoActionCoroutine(action, angle));
     }
 
+    public void OrientTowardsWithAngle(float angle, Vector2 target, float animationLength)
+    {
+        StartCoroutine(OrientTowardsWithAngleCoroutine(angle, target, animationLength));
+    }
+
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
         if (angle.HasValue)
         {
             if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBindingSite, out Vector2 target))
-                yield return OrientTowardsWithAngle(angle.Value, target, 1);
+                yield return OrientTowardsWithAngleCoroutine(angle.Value, target, 1);
             else
                 Debug.LogError($"Not orienting because '{PointsOfInterest.kBindingSite}' was not set");
         }
@@ -64,6 +63,29 @@ public class Protein : MonoBehaviour
         }
 
         yield return null;
+    }
+
+    private IEnumerator OrientTowardsWithAngleCoroutine(float angle, Vector2 target, float animationLength)
+    {
+        Vector2 towardsTarget = target - (Vector2)transform.position;
+        float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
+
+        float currentAngle = Rotation;
+        float targetAngle = Rotation - angleToTarget + angle;
+
+        if (Mathf.Approximately(currentAngle, targetAngle))
+            yield break;
+
+        float time = 0;
+
+        while (time < animationLength)
+        {
+            float t = time / animationLength;
+            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
+            time += Time.deltaTime;
+            yield return null;
+        }
     }
 
     public (string action, float? angle) ResolveAction()
@@ -149,29 +171,10 @@ public class Protein : MonoBehaviour
             Destroy(piece.gameObject);
         }
         ProteinPieces.Clear();
-        transform.position = homePosition;
-    }
 
-    public IEnumerator OrientTowardsWithAngle(float angle, Vector2 target, float animationLength)
-    {
-        Vector2 towardsTarget = target - (Vector2)transform.position;
-        float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
-
-        float currentAngle = Rotation;
-        float targetAngle = Rotation - angleToTarget + angle;
-
-        if (Mathf.Approximately(currentAngle, targetAngle))
-            yield break;
-
-        float time = 0;
-
-        while (time < animationLength)
-        {
-            float t = Mathf.InverseLerp(0, animationLength, time);
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
-            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
-            time += Time.deltaTime;
-            yield return null;
-        }
+        if (homePosition == null)
+            homePosition = transform.position;
+        else
+            transform.position = homePosition.Value;
     }
 }
