@@ -29,8 +29,6 @@ public class Protein : MonoBehaviour
     {
         var (action, angle) = ResolveAction();
 
-        print(angle);
-
         if (string.IsNullOrEmpty(action))
         {
             Debug.LogError("No action given to perform!");
@@ -58,7 +56,7 @@ public class Protein : MonoBehaviour
         switch (action)
         {
             default:
-                //Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
+                Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
                 break;
         }
 
@@ -67,11 +65,14 @@ public class Protein : MonoBehaviour
 
     private IEnumerator OrientTowardsWithAngleCoroutine(float angle, Vector2 target, float animationLength)
     {
-        Vector2 towardsTarget = target - (Vector2)transform.position;
+        Vector2 towardsTarget = (Vector2)transform.position - target;
         float angleToTarget = Vector2.SignedAngle(transform.right, towardsTarget);
 
         float currentAngle = Rotation;
         float targetAngle = Rotation - angleToTarget + angle;
+
+        currentAngle %= 360.0f;
+        targetAngle %= 360.0f;
 
         if (Mathf.Approximately(currentAngle, targetAngle))
             yield break;
