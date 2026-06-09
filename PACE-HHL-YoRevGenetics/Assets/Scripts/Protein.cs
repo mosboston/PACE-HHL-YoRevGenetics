@@ -3,7 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 
 using Application = FAST.Application;
@@ -14,6 +13,7 @@ public class Protein : MonoBehaviour
     [Header("General Animations")]
     [SerializeField] float animationLength = 1;
     [SerializeField] float animationWaitTime = 0.25f;
+    [SerializeField] float animationEndTime = 3.0f;
 
     [Header("Bounce Animation")]
     [SerializeField] float bubbleSize = 100;
@@ -34,7 +34,8 @@ public class Protein : MonoBehaviour
         return ProteinPieces.Exists(p => p.LogicBlock.pieceName.Equals(pieceName));
     }
 
-    Vector3? homePosition;
+    Vector2? homePosition;
+    float? homeRotation;
 
     public float Rotation
     {
@@ -94,6 +95,7 @@ public class Protein : MonoBehaviour
                 yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength, EaseInCubic);
                 break;
 
+            case "fail":
             case "bounce":
                 if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBounceSpot, out RectTransform bounceSpot))
                 {
@@ -109,7 +111,8 @@ public class Protein : MonoBehaviour
                 break;
         }
 
-        yield return null;
+        yield return new WaitForSeconds(animationEndTime);
+        BackToHome();
     }
 
     private IEnumerator MoveToRectTransform(RectTransform transform, float animationLength, Func<float, float> animationCurve = null) =>
@@ -278,6 +281,12 @@ public class Protein : MonoBehaviour
         }
     }
 
+    public void FullReset()
+    {
+        ResetPieces();
+        BackToHome();
+    }
+
     public void ResetPieces()
     {
         foreach (ProteinPiece piece in ProteinPieces)
@@ -285,11 +294,19 @@ public class Protein : MonoBehaviour
             Destroy(piece.gameObject);
         }
         ProteinPieces.Clear();
+    }
 
+    public void BackToHome()
+    {
         if (homePosition == null)
-            homePosition = transform.position;
+            homePosition = Position;
         else
-            transform.position = homePosition.Value;
+            Position = homePosition.Value;
+
+        if (homeRotation == null)
+            homeRotation = Rotation;
+        else
+            Rotation = homeRotation.Value;
     }
 
     // ---==========---

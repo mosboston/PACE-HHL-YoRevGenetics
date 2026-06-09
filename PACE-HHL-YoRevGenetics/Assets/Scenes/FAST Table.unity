@@ -1350,7 +1350,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Protein
   animationLength: 1
   animationWaitTime: 0.25
+  animationEndTime: 3
   bubbleSize: 230
+  randDistance: {x: 100, y: 200}
+  randDirection: 45
+  randForward: 360
   proteinPiecePrefab: {fileID: 8432375203016955381, guid: ebe50e2c80db83c42b3a7dce26fb4e08, type: 3}
   proteinPieceParent: {fileID: 296908204}
 --- !u!114 &1366617273
@@ -2809,7 +2813,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1366617272}
         m_TargetAssemblyTypeName: Protein, Assembly-CSharp
-        m_MethodName: ResetPieces
+        m_MethodName: FullReset
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
