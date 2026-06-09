@@ -75,7 +75,7 @@ public class Protein : MonoBehaviour
     {
         if (angle.HasValue)
         {
-            yield return OrientToAngleCoroutine(angle.Value, animationLength);
+            yield return OrientToAngleClamped(angle.Value, animationLength);
             yield return new WaitForSeconds(animationWaitTime);
         }
 
@@ -105,6 +105,11 @@ public class Protein : MonoBehaviour
                     yield return MoveToRectTransform(bouncedTransform, animationLength, EaseOutCubic);
                 }
                 break;
+
+            case "separate":
+                yield return OrientToAngle(360*4, animationLength, EaseInCubic);
+                FullReset();
+                yield break;
 
             default:
                 Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
@@ -150,7 +155,16 @@ public class Protein : MonoBehaviour
         }
     }
 
-    private IEnumerator OrientToAngleCoroutine(float angle, float animationLength, Func<float, float> animationCurve = null)
+    private IEnumerator OrientToAngleClamped(float angle, float animationLength, Func<float, float> animationCurve = null)
+    {
+        angle %= 360.0f;
+        if (angle < 0)
+            angle += 360;
+
+        yield return OrientToAngle(angle, animationLength, animationCurve);
+    }
+
+    private IEnumerator OrientToAngle(float angle, float animationLength, Func<float, float> animationCurve = null)
     {
         float currentAngle = Rotation;
         float targetAngle = angle;
@@ -158,10 +172,6 @@ public class Protein : MonoBehaviour
         currentAngle %= 360.0f;
         if (currentAngle < 0)
             currentAngle += 360;
-
-        targetAngle %= 360.0f;
-        if (targetAngle < 0)
-            targetAngle += 360;
 
         if (Mathf.Approximately(currentAngle, targetAngle))
             yield break;
@@ -176,7 +186,7 @@ public class Protein : MonoBehaviour
             animationCurve ??= SmoothStep;
             t = animationCurve(t);
 
-            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
+            Rotation = Mathf.Lerp(currentAngle, targetAngle, t);
 
             time += Time.deltaTime;
             yield return null;
