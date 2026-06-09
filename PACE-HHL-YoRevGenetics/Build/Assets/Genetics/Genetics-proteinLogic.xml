@@ -9,7 +9,7 @@
         <blockType>IF</blockType>
         <pieceName>sword</pieceName>
         <action>kill</action>
-        <angle>-302</angle>
+        <angle>302</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>IF</blockType>
@@ -20,7 +20,7 @@
         <blockType>NESTED</blockType>
         <pieceName>key</pieceName>
         <action>IF umbrella THEN fail ELSE win</action>
-        <angle>-206</angle>
+        <angle>206</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>IF</blockType>
@@ -32,13 +32,13 @@
         <blockType>NESTED</blockType>
         <pieceName>square</pieceName>
         <action>IF circle THEN win ELSE fail</action>
-        <angle>-153</angle>
+        <angle>153</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>IF</blockType>
         <pieceName>circle</pieceName>
         <action>win</action>
-        <angle>-153</angle>
+        <angle>153</angle>
     </ProteinLogicBlock>
     
     <ProteinLogicBlock>
@@ -49,22 +49,22 @@
     <ProteinLogicBlock>
         <blockType>ELSE</blockType>
         <pieceName>legs</pieceName>
-        <angle>-90</angle>
+        <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>ELSE</blockType>
         <pieceName>tail</pieceName>
-        <angle>-45</angle>
+        <angle>45</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>ELSE</blockType>
         <pieceName>wrong_shapes</pieceName>
-        <angle>-90</angle>
+        <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
         <blockType>ELSE</blockType>
         <pieceName>backwards</pieceName>
-        <angle>-244</angle>
+        <angle>244</angle>
     </ProteinLogicBlock>
     
     <ProteinLogicBlock>

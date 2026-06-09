@@ -49,10 +49,10 @@ public class Protein : MonoBehaviour
 
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
-        //if (angle.HasValue)
-        //{
-        //    yield return OrientToAngleCoroutine(angle.Value, animationLength);
-        //}
+        if (angle.HasValue)
+        {
+            yield return OrientToAngleCoroutine(angle.Value, animationLength);
+        }
 
         switch (action)
         {
@@ -77,7 +77,7 @@ public class Protein : MonoBehaviour
         float currentRotation = Rotation;
 
         Vector2 targetPosition = transform.position;
-        float targetRotation = transform.localEulerAngles.z - angle;
+        float targetRotation = transform.localEulerAngles.z + angle;
 
         float time = 0;
 
