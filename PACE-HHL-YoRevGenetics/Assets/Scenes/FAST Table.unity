@@ -351,6 +351,8 @@ MonoBehaviour:
   pointsOfInterest:
   - key: ProteinWinSpot
     point: {fileID: 1914792320}
+  - key: BounceSpot
+    point: {fileID: 935042947}
 --- !u!1 &296908203
 GameObject:
   m_ObjectHideFlags: 0
@@ -451,6 +453,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1914792320}
+  - {fileID: 935042947}
   m_Father: {fileID: 2084412012}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -734,6 +737,64 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &935042946
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 935042947}
+  - component: {fileID: 935042948}
+  m_Layer: 0
+  m_Name: BounceSpot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &935042947
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935042946}
+  m_LocalRotation: {x: -0, y: -0, z: -0.96628934, w: 0.25745866}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 564938570}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -134.459}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -93.53998, y: -62.479996}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &935042948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935042946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6458cde10d097b41942b2376aa13fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Museum-Of-Science.FAST-SDK::FAST.AlignmentRectTransform
+  drawingCamera: {fileID: 0}
+  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetRotation: 0
+  offsetScale: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialScale: {x: 0, y: 0, z: 0}
+  offsetSize: {x: 0, y: 0}
+  initialSize: {x: 0, y: 0}
+  parentCanvas: {fileID: 0}
 --- !u!1 &1018452337
 GameObject:
   m_ObjectHideFlags: 0
@@ -1289,6 +1350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Protein
   animationLength: 1
   animationWaitTime: 0.25
+  bubbleSize: 230
   proteinPiecePrefab: {fileID: 8432375203016955381, guid: ebe50e2c80db83c42b3a7dce26fb4e08, type: 3}
   proteinPieceParent: {fileID: 296908204}
 --- !u!114 &1366617273

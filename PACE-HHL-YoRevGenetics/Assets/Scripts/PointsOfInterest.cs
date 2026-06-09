@@ -19,6 +19,7 @@ public class PointsOfInterest : MonoBehaviour
     [SerializeField] List<KeyPoint> pointsOfInterest;
 
     public const string kProteinWinSpot = "ProteinWinSpot";
+    public const string kBounceSpot = "BounceSpot";
 
     private void Start()
     {

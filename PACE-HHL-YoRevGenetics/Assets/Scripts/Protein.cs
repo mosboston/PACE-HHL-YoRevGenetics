@@ -3,17 +3,29 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
+
 using Application = FAST.Application;
+using Random = UnityEngine.Random;
 
 public class Protein : MonoBehaviour
 {
+    [Header("General Animations")]
     [SerializeField] float animationLength = 1;
     [SerializeField] float animationWaitTime = 0.25f;
+
+    [Header("Bounce Animation")]
+    [SerializeField] float bubbleSize = 100;
+    [SerializeField] Vector2 randDistance = new(100, 200);
+    [SerializeField] float randDirection = 45;
+    [SerializeField] float randForward = 360;
+
+    [Header("References")]
     [SerializeField] ProteinPiece proteinPiecePrefab;
     [SerializeField] Transform proteinPieceParent;
+
+    RectTransform extraTransform;
 
     List<ProteinPiece> _proteinPieces = new();
     public List<ProteinPiece> ProteinPieces { get => _proteinPieces; private set => _proteinPieces = value; }
@@ -34,6 +46,12 @@ public class Protein : MonoBehaviour
     {
         get => transform.position;
         set => transform.position = value;
+    }
+
+    private void Start()
+    {
+        var temp = new GameObject("extraTransform");
+        extraTransform = temp.AddComponent<RectTransform>();
     }
 
     // ---==========---
@@ -60,20 +78,29 @@ public class Protein : MonoBehaviour
             yield return new WaitForSeconds(animationWaitTime);
         }
 
-        RectTransform target;
+        if (!Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out RectTransform target))
+        {
+            Debug.LogError($"'{PointsOfInterest.kProteinWinSpot}' is not set but it is expected!");
+            yield break;
+        }
+
         switch (action)
         {
             case "win":
-                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out target))
-                {
-                    yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength);
-                }
+                yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength);
                 break;
 
             case "kill":
-                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out target))
+                yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength, EaseInCubic);
+                break;
+
+            case "bounce":
+                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBounceSpot, out RectTransform bounceSpot))
                 {
-                    yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength, EaseInCubic);
+                    yield return BreakWhenInRange(bounceSpot.position, bubbleSize,
+                        MoveToRectTransformWithAngle(target, angle.Value, animationLength));
+                    RectTransform bouncedTransform = RandomRectTransform(bounceSpot.localEulerAngles.z, randDirection, Rotation, randForward, randDistance.x, randDistance.y);
+                    yield return MoveToRectTransform(bouncedTransform, animationLength, EaseOutCubic);
                 }
                 break;
 
@@ -84,6 +111,9 @@ public class Protein : MonoBehaviour
 
         yield return null;
     }
+
+    private IEnumerator MoveToRectTransform(RectTransform transform, float animationLength, Func<float, float> animationCurve = null) =>
+        MoveToRectTransformWithAngle(transform, Rotation, animationLength, animationCurve);
 
     private IEnumerator MoveToRectTransformWithAngle(RectTransform transform, float angle, float animationLength, Func<float, float> animationCurve = null)
     {
@@ -148,6 +178,25 @@ public class Protein : MonoBehaviour
             time += Time.deltaTime;
             yield return null;
         }
+    }
+
+    private IEnumerator BreakWhenInRange(Vector2 point, float range, IEnumerator action)
+    {
+        while (Vector2.Distance(Position, point) > range && action.MoveNext())
+        {
+            yield return action.Current;
+        }
+    }
+
+    private RectTransform RandomRectTransform(float directionAngle, float directionRange, float forwardAngle, float forwardRange, float minDistance, float maxDistance)
+    {
+        float distance = Random.Range(minDistance, maxDistance);
+        float direction = Random.Range(directionAngle - directionRange, directionAngle + directionRange);
+        float forward = Random.Range(forwardAngle - forwardRange, forwardAngle + forwardRange);
+
+        extraTransform.position = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * distance;
+        extraTransform.localEulerAngles = new Vector3(0, 0, forward);
+        return extraTransform;
     }
 
     public (string action, float? angle) ResolveAction()
@@ -254,4 +303,15 @@ public class Protein : MonoBehaviour
     private float Linear(float x) => x;
 
     private float EaseInCubic(float x) => x * x * x;
+
+    private float EaseOutCubic(float x) { float u = (1 - x); return 1 - u * u * u; }
+
+    // ---===---
+    //  Gizmos!
+    // ---===---
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(Position, bubbleSize);
+    }
 }
