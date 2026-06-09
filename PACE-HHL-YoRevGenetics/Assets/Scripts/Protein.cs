@@ -1,4 +1,5 @@
 using FAST;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using Application = FAST.Application;
 public class Protein : MonoBehaviour
 {
     [SerializeField] float animationLength = 1;
+    [SerializeField] float animationWaitTime = 0.25f;
     [SerializeField] ProteinPiece proteinPiecePrefab;
     [SerializeField] Transform proteinPieceParent;
 
@@ -34,6 +36,9 @@ public class Protein : MonoBehaviour
         set => transform.position = value;
     }
 
+    // ---==========---
+    //  Action related
+    // ---==========---
     public void DoAction()
     {
         var (action, angle) = ResolveAction();
@@ -52,14 +57,23 @@ public class Protein : MonoBehaviour
         if (angle.HasValue)
         {
             yield return OrientToAngleCoroutine(angle.Value, animationLength);
+            yield return new WaitForSeconds(animationWaitTime);
         }
 
+        RectTransform target;
         switch (action)
         {
             case "win":
-                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out RectTransform target))
+                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out target))
                 {
                     yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength);
+                }
+                break;
+
+            case "kill":
+                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out target))
+                {
+                    yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength, EaseInCubic);
                 }
                 break;
 
@@ -71,8 +85,14 @@ public class Protein : MonoBehaviour
         yield return null;
     }
 
-    private IEnumerator MoveToRectTransformWithAngle(RectTransform transform, float angle, float animationLength)
+    private IEnumerator MoveToRectTransformWithAngle(RectTransform transform, float angle, float animationLength, Func<float, float> animationCurve = null)
     {
+        if (animationLength <= 0)
+        {
+            Debug.LogError("animationLength must be > 0!");
+            yield break;
+        }
+
         Vector2 currentPosition = Position;
         float currentRotation = Rotation;
 
@@ -84,7 +104,10 @@ public class Protein : MonoBehaviour
         while (time < animationLength)
         {
             float t = time / animationLength;
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+
+            // if animation curve is null, default to smooth step
+            animationCurve ??= SmoothStep;
+            t = animationCurve(t);
 
             Rotation = Mathf.LerpAngle(currentRotation, targetRotation, t);
             Position = Vector2.Lerp(currentPosition, targetPosition, t);
@@ -94,7 +117,7 @@ public class Protein : MonoBehaviour
         }
     }
 
-    private IEnumerator OrientToAngleCoroutine(float angle, float animationLength)
+    private IEnumerator OrientToAngleCoroutine(float angle, float animationLength, Func<float, float> animationCurve = null)
     {
         float currentAngle = Rotation;
         float targetAngle = angle;
@@ -115,7 +138,10 @@ public class Protein : MonoBehaviour
         while (time < animationLength)
         {
             float t = time / animationLength;
-            t = Mathf.SmoothStep(0.0f, 1.0f, t);
+
+            // if animation curve is null, default to smooth step
+            animationCurve ??= SmoothStep;
+            t = animationCurve(t);
 
             Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
 
@@ -190,6 +216,9 @@ public class Protein : MonoBehaviour
             return actions[5];
     }
 
+    // ---==================---
+    //  Events & Extra Publics
+    // ---==================---
     public void OnProteinPieceNamesRecieved(List<string> logicBlockNames)
     {
         foreach (string logicBlockName in logicBlockNames)
@@ -213,4 +242,16 @@ public class Protein : MonoBehaviour
         else
             transform.position = homePosition.Value;
     }
+
+    // ---==========---
+    //  Util Shorthand
+    // ---==========---
+
+    // All of these expect domain and range of [0, 1]
+
+    private float SmoothStep(float x) => Mathf.SmoothStep(0.0f, 1.0f, x);
+
+    private float Linear(float x) => x;
+
+    private float EaseInCubic(float x) => x * x * x;
 }
