@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<ActivitySettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <activityId>YoRevGenetics</activityId>
+  <logSettings>
+    <isLogging>true</isLogging>
+    <numberOfLogs>10</numberOfLogs>
+  </logSettings>
+  <assetSettings>
+    <languages>
+      <string>EN</string>
+    </languages>
+    <prefixFileName />
+    <suffixFileName />
+    <prefixErrorMessage />
+    <replacementErrorMessage />
+    <suffixErrorMessage />
+  </assetSettings>
+  <displaySettings>
+    <numberOfDisplays>1</numberOfDisplays>
+    <prefixErrorMessage />
+    <replacementErrorMessage />
+    <suffixErrorMessage />
+  </displaySettings>
+  <whiteScreenSettings>
+    <onScreenMessage />
+    <durationMinutes>0</durationMinutes>
+    <isTouchInput>false</isTouchInput>
+    <isMouseInput>false</isMouseInput>
+    <isAxisInput>false</isAxisInput>
+    <isKeypressInput>false</isKeypressInput>
+    <isSerialInput>false</isSerialInput>
+    <serialInputCount>10</serialInputCount>
+    <isUdpInput>false</isUdpInput>
+    <udpInputCount>1</udpInputCount>
+  </whiteScreenSettings>
+  <alignmentSettings>
+    <AlignmentTransformSettings name="PieceParent">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0.1297363" />
+    </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="ProteinWinSpot">
+      <position x="-19.40541" y="-15.18918" z="0" />
+      <rotation z="-3" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentTransformSettings name="ProteinImage">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.0351318" />
+    </AlignmentTransformSettings>
+    <AlignmentTransformSettings name="Protein">
+      <position x="0" y="-29.34" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+    </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="ConfirmationSite">
+      <position x="-15" y="-4" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.15" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+  </alignmentSettings>
+</ActivitySettings>
