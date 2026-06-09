@@ -9,7 +9,13 @@ public class Block : MonoBehaviour
 
     private void Awake()
     {
-        name = $"{blockName} Block";
+        SetName(blockName);
+    }
+
+    public void SetName(string name)
+    {
+        blockName = name;
+        this.name = $"{blockName} Block";
     }
 
     // TEMP BLOCK MOVING CODE

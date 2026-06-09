@@ -11,6 +11,8 @@ public class ActivitySettings : BaseSettings
     [XmlIgnore]
     public List<ProteinLogicBlock> orderedProteinLogic;
     [XmlIgnore]
+    public List<string> proteinPieceNames;
+    [XmlIgnore]
     public string defaultAction;
 
     [XmlIgnore]

@@ -75,7 +75,7 @@ public class Protein : MonoBehaviour
     {
         if (angle.HasValue)
         {
-            yield return OrientToAngleClamped(angle.Value, animationLength);
+            yield return OrientToAngle(angle.Value, animationLength);
             yield return new WaitForSeconds(animationWaitTime);
         }
 
@@ -107,7 +107,7 @@ public class Protein : MonoBehaviour
                 break;
 
             case "separate":
-                yield return OrientToAngle(360*4, animationLength, EaseInCubic);
+                yield return OrientToAngleUnclamped(360*4, animationLength, EaseInCubic);
                 FullReset();
                 yield break;
 
@@ -155,16 +155,7 @@ public class Protein : MonoBehaviour
         }
     }
 
-    private IEnumerator OrientToAngleClamped(float angle, float animationLength, Func<float, float> animationCurve = null)
-    {
-        angle %= 360.0f;
-        if (angle < 0)
-            angle += 360;
-
-        yield return OrientToAngle(angle, animationLength, animationCurve);
-    }
-
-    private IEnumerator OrientToAngle(float angle, float animationLength, Func<float, float> animationCurve = null)
+    private IEnumerator OrientToAngleUnclamped(float angle, float animationLength, Func<float, float> animationCurve = null)
     {
         float currentAngle = Rotation;
         float targetAngle = angle;
@@ -187,6 +178,39 @@ public class Protein : MonoBehaviour
             t = animationCurve(t);
 
             Rotation = Mathf.Lerp(currentAngle, targetAngle, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private IEnumerator OrientToAngle(float angle, float animationLength, Func<float, float> animationCurve = null)
+    {
+        float currentAngle = Rotation;
+        float targetAngle = angle;
+
+        currentAngle %= 360.0f;
+        if (currentAngle < 0)
+            currentAngle += 360;
+
+        targetAngle %= 360.0f;
+        if (targetAngle < 0)
+            targetAngle += 360;
+
+        if (Mathf.Approximately(currentAngle, targetAngle))
+            yield break;
+
+        float time = 0;
+
+        while (time < animationLength)
+        {
+            float t = time / animationLength;
+
+            // if animation curve is null, default to smooth step
+            animationCurve ??= SmoothStep;
+            t = animationCurve(t);
+
+            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
 
             time += Time.deltaTime;
             yield return null;

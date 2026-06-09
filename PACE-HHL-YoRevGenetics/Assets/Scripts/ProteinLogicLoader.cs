@@ -1,6 +1,7 @@
 using FAST;
 using System;
 using System.IO;
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -71,6 +72,8 @@ public class ProteinLogicLoader : StartupLoader
 
             Application.settings.defaultAction = defaultBlocks[0].action;
             proteinLogicBlocks.Remove(defaultBlocks[0]);
+
+            Application.settings.proteinPieceNames = proteinLogicBlocks.Select(b => b.pieceName).ToList();
 
             proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);
 
