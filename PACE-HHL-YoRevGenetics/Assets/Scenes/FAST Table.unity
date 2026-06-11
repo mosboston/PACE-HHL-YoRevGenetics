@@ -18200,20 +18200,8 @@ MonoBehaviour:
   maxNumMarkers: 24
   markerParent: {fileID: 5279633917484635983}
   markerPrefab: {fileID: 6183256703332063706, guid: 36015bc99e02d89488b48528bfe6e069, type: 3}
-  markers:
-  - {fileID: 0}
-  markerDataLUT:
-  - id: 0
-    x: 0
-    y: 0
-    angle: 0
-    size: 0
-    rawX: 0
-    rawY: 0
-    rawAngle: 0
-    rawSize: 0
-    timeReceived: 0
-    trackingState: 0
+  markers: []
+  markerDataLUT: []
 --- !u!1 &7211400562508751534
 GameObject:
   m_ObjectHideFlags: 0
