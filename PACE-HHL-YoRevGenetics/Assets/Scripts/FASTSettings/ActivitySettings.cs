@@ -18,6 +18,9 @@ public class ActivitySettings : BaseSettings
     [XmlIgnore]
     public Dictionary<string, RectTransform> pointsOfInterest = new();
 
+    [XmlIgnore]
+    public MarkerTrackingSettings markerTrackingSettings;
+
     public ProteinLogicBlock FindLogicBlock(string blockName)
     {
         ProteinLogicBlock block = orderedProteinLogic.Find(b => b.pieceName.Equals(blockName));
