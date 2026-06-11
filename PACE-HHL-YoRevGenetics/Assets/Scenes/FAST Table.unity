@@ -18200,8 +18200,20 @@ MonoBehaviour:
   maxNumMarkers: 24
   markerParent: {fileID: 5279633917484635983}
   markerPrefab: {fileID: 6183256703332063706, guid: 36015bc99e02d89488b48528bfe6e069, type: 3}
-  markers: []
-  markerDataLUT: []
+  markers:
+  - {fileID: 0}
+  markerDataLUT:
+  - id: 0
+    x: 0
+    y: 0
+    angle: 0
+    size: 0
+    rawX: 0
+    rawY: 0
+    rawAngle: 0
+    rawSize: 0
+    timeReceived: 0
+    trackingState: 0
 --- !u!1 &7211400562508751534
 GameObject:
   m_ObjectHideFlags: 0
@@ -19479,7 +19491,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1500, y: 1000}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &7803768812327100944
 MonoBehaviour:
