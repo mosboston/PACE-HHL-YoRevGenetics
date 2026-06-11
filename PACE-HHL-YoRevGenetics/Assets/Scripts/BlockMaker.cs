@@ -19,8 +19,8 @@ public class BlockMaker : MonoBehaviour
 
             newBlock.SetName(proteinPieceNames[i]);
 
-            float x = blockSeparation * (i % 4);
-            float y = -blockSeparation * (i / 4);
+            float x = blockSeparation * (i % blocksPerRow);
+            float y = -blockSeparation * (i / blocksPerRow);
             newBlock.transform.localPosition = new Vector3(x, y);
         }
     }
