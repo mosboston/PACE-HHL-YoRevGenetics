@@ -27,7 +27,7 @@ public class Block : MonoBehaviour
         if (Application.settings.allProtienLogic.TryGetValue(blockName, out ProteinLogicBlock logicBlock))
         {
             Color color = logicBlock.color;
-            color.a = 1;
+            //color.a = 1;
             image.color = color;
         }
     }
