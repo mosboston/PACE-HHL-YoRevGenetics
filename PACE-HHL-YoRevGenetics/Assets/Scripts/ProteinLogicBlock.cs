@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 [Serializable]
 public class ProteinLogicBlock
@@ -9,4 +10,5 @@ public class ProteinLogicBlock
     public string pieceName;
     public string action;
     public float? angle = null;
+    public Color color = Color.darkGray;
 }

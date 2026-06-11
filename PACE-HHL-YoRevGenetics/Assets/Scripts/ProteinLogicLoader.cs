@@ -73,10 +73,9 @@ public class ProteinLogicLoader : StartupLoader
             Application.settings.defaultAction = defaultBlocks[0].action;
             proteinLogicBlocks.Remove(defaultBlocks[0]);
 
-            Application.settings.proteinPieceNames = proteinLogicBlocks.Select(b => b.pieceName).ToList();
+            Application.settings.allProtienLogic = proteinLogicBlocks.ToDictionary(b => b.pieceName);
 
             proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);
-
             Application.settings.orderedProteinLogic = proteinLogicBlocks;
         }
         catch (Exception exception)

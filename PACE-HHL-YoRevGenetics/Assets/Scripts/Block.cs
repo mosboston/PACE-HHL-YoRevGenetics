@@ -1,4 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Application = FAST.Application;
 
 public class Block : MonoBehaviour
 {
@@ -7,15 +10,26 @@ public class Block : MonoBehaviour
     public bool IsStart { get => blockName.Equals("START"); }
     public bool IsEnd { get => blockName.Equals("END"); }
 
+    private Image image;
+
     private void Awake()
     {
         SetName(blockName);
+
+        image = GetComponent<Image>();
     }
 
     public void SetName(string name)
     {
         blockName = name;
         this.name = $"{blockName} Block";
+
+        if (Application.settings.allProtienLogic.TryGetValue(blockName, out ProteinLogicBlock logicBlock))
+        {
+            Color color = logicBlock.color;
+            color.a = 1;
+            image.color = color;
+        }
     }
 
     // TEMP BLOCK MOVING CODE

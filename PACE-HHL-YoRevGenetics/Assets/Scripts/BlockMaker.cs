@@ -11,7 +11,7 @@ public class BlockMaker : MonoBehaviour
 
     private void Start()
     {
-        List<string> proteinPieceNames = Application.settings.proteinPieceNames;
+        List<string> proteinPieceNames = Application.settings.ProteinPieceNames;
 
         for (int i = 0; i < proteinPieceNames.Count; i++)
         {

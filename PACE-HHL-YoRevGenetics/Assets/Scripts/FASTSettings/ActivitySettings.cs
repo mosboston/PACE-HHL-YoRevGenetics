@@ -11,7 +11,9 @@ public class ActivitySettings : BaseSettings
     [XmlIgnore]
     public List<ProteinLogicBlock> orderedProteinLogic;
     [XmlIgnore]
-    public List<string> proteinPieceNames;
+    public Dictionary<string, ProteinLogicBlock> allProtienLogic;
+    [XmlIgnore]
+    public List<string> ProteinPieceNames { get => allProtienLogic.Keys.ToList(); }
     [XmlIgnore]
     public string defaultAction;
 

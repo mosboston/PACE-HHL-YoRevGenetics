@@ -33,15 +33,6 @@
     <isUdpInput>false</isUdpInput>
     <udpInputCount>1</udpInputCount>
   </whiteScreenSettings>
-  <udpConnectionSettings id="">
-    <localReceivePort>60000</localReceivePort>
-    <localSendPort>60001</localSendPort>
-    <remoteIpAddress>127.0.0.1</remoteIpAddress>
-    <remotePort>50000</remotePort>
-    <prefixErrorMessage />
-    <replacementErrorMessage />
-    <suffixErrorMessage />
-  </udpConnectionSettings>
   <alignmentSettings>
     <AlignmentTransformSettings name="PieceParent">
       <position x="0" y="0" z="0" />
