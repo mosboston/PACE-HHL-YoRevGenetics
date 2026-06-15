@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using Unity.VisualScripting;
 
 using Application = FAST.Application;
 
@@ -49,6 +50,28 @@ public class ProteinLogicLoader : StartupLoader
             stream = new FileStream(proteinLogicPath, FileMode.Open);
             proteinLogicBlocks = serializer.Deserialize(stream) as List<ProteinLogicBlock>;
             stream.Close();
+
+            // Check for duplicate markerIDs
+            List<int> duplicateMarkerIDs = proteinLogicBlocks.GroupBy(b => b.markerID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+            if (duplicateMarkerIDs.Count > 0)
+            {
+                errorTitle = "There are duplicate marker IDs!";
+                foreach (int id in  duplicateMarkerIDs)
+                    errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == id).Select(b => b.pieceName).ToCommaSeparatedString()} have ID {id}\n";
+                result = false;
+            }
+            if (proteinLogicBlocks.Any(b => b.markerID == Application.settings.startBlockID))
+            {
+                errorTitle = "There are duplicate marker IDs!";
+                errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == Application.settings.startBlockID).Select(b => b.pieceName).ToCommaSeparatedString()} has the start block ID ({Application.settings.startBlockID})\n";
+                result = false;
+            }
+            if (proteinLogicBlocks.Any(b => b.markerID == Application.settings.endBlockID))
+            {
+                errorTitle = "There are duplicate marker IDs!";
+                errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == Application.settings.endBlockID).Select(b => b.pieceName).ToCommaSeparatedString()} has the end block ID ({Application.settings.endBlockID})\n";
+                result = false;
+            }
 
             Application.settings.allProtienLogic = proteinLogicBlocks.ToDictionary(b => b.pieceName);
 
