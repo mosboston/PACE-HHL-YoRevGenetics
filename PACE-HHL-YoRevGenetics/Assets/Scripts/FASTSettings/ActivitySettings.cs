@@ -21,7 +21,7 @@ public class ActivitySettings : BaseSettings
     public Dictionary<string, RectTransform> pointsOfInterest = new();
 
     [XmlIgnore]
-    public MarkerTrackingSettings markerTrackingSettings;
+    public MarkerTrackingSettings markerTrackingSettings = new();
 
     public ProteinLogicBlock FindLogicBlock(string blockName)
     {
