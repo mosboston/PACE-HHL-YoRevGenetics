@@ -259,6 +259,10 @@ public class Protein : MonoBehaviour
                         action = newAction;
                 }
             }
+            else
+            {
+                action = Application.settings.defaultAction;
+            }
         }
 
         Debug.Log(action);

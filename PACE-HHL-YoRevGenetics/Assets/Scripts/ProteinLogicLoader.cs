@@ -50,29 +50,6 @@ public class ProteinLogicLoader : StartupLoader
             proteinLogicBlocks = serializer.Deserialize(stream) as List<ProteinLogicBlock>;
             stream.Close();
 
-            List<ProteinLogicBlock> defaultBlocks = proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.DEFAULT);
-            if (defaultBlocks.Count < 1)
-            {
-                errorTitle = "No default action found!";
-                errorMessage = "There must be 1 Protein Logic Block with a block type of Default";
-                return false;
-            }
-            if (defaultBlocks.Count > 1)
-            {
-                errorTitle = "More than one default action found!";
-                errorMessage = "There must be only 1 Protein Logic Block with a block type of Default";
-                return false;
-            }
-            if (string.IsNullOrEmpty(defaultBlocks[0].action))
-            {
-                errorTitle = "No action assigned to default logic block!";
-                errorMessage = "The default logic block was found but is missing an action";
-                return false;
-            }
-
-            Application.settings.defaultAction = defaultBlocks[0].action;
-            proteinLogicBlocks.Remove(defaultBlocks[0]);
-
             Application.settings.allProtienLogic = proteinLogicBlocks.ToDictionary(b => b.pieceName);
 
             proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);

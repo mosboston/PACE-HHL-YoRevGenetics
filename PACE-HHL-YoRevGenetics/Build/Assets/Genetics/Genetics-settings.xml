@@ -83,4 +83,7 @@
       <scale xyz="0.1297363" />
     </AlignmentTransformSettings>
   </alignmentSettings>
+  <defaultAction>fail</defaultAction>
+  <startBlockID>22</startBlockID>
+  <endBlockID>23</endBlockID>
 </ActivitySettings>

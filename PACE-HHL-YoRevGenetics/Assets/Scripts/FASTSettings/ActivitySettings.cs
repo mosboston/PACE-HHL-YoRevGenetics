@@ -14,8 +14,10 @@ public class ActivitySettings : BaseSettings
     public Dictionary<string, ProteinLogicBlock> allProtienLogic;
     [XmlIgnore]
     public List<string> ProteinPieceNames { get => allProtienLogic.Keys.ToList(); }
-    [XmlIgnore]
-    public string defaultAction;
+
+    public string defaultAction = "fail";
+    public int startBlockID;
+    public int endBlockID;
 
     [XmlIgnore]
     public Dictionary<string, RectTransform> pointsOfInterest = new();

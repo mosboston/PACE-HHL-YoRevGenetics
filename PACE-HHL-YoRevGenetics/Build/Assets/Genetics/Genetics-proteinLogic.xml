@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <ProteinLogic xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ProteinLogicBlock>
+		<markerID>0</markerID>
         <blockType>IF</blockType>
         <pieceName>misfold</pieceName>
         <action>separate</action>
@@ -12,35 +13,42 @@
         </color>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>1</markerID>
         <blockType>IF</blockType>
         <pieceName>sword</pieceName>
         <action>kill</action>
         <angle>302</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>2</markerID>
         <blockType>IF</blockType>
         <pieceName>bubble</pieceName>
         <action>bounce</action>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>3</markerID>
         <blockType>NESTED</blockType>
         <pieceName>key</pieceName>
         <action>IF umbrella THEN fail ELSE win</action>
         <angle>206</angle>
+		<markerID>0</markerID>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>4</markerID>
         <blockType>IF</blockType>
         <pieceName>key_extra</pieceName>
         <action>win</action>
         <angle>0</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>5</markerID>
         <blockType>NESTED</blockType>
         <pieceName>square</pieceName>
         <action>IF circle THEN win ELSE fail</action>
         <angle>153</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>6</markerID>
         <blockType>IF</blockType>
         <pieceName>circle</pieceName>
         <action>win</action>
@@ -48,33 +56,33 @@
     </ProteinLogicBlock>
     
     <ProteinLogicBlock>
+		<markerID>7</markerID>
         <blockType>ELSE</blockType>
         <pieceName>umbrella</pieceName>
         <angle>180</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>8</markerID>
         <blockType>ELSE</blockType>
         <pieceName>legs</pieceName>
         <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>9</markerID>
         <blockType>ELSE</blockType>
         <pieceName>tail</pieceName>
         <angle>45</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>10</markerID>
         <blockType>ELSE</blockType>
         <pieceName>wrong_shapes</pieceName>
         <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>11</markerID>
         <blockType>ELSE</blockType>
         <pieceName>backwards</pieceName>
         <angle>244</angle>
-    </ProteinLogicBlock>
-    
-    <ProteinLogicBlock>
-        <blockType>DEFAULT</blockType>
-        <action>fail</action>
     </ProteinLogicBlock>
 </ProteinLogic>
