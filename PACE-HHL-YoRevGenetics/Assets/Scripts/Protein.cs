@@ -246,7 +246,7 @@ public class Protein : MonoBehaviour
             return (null, null);
         }
 
-        string action = Application.settings.defaultAction;
+        string action = null;
         float? angle = null;
         foreach (ProteinLogicBlock logicBlock in Application.settings.orderedProteinLogic)
         {
@@ -262,6 +262,8 @@ public class Protein : MonoBehaviour
                 }
             }
         }
+
+        action ??= Application.settings.defaultAction;
 
         Debug.Log($"{action} at {(angle.HasValue ? angle.Value : "null")} degrees");
         return (action, angle);
