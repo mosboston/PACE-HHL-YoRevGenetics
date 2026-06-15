@@ -21,15 +21,6 @@ public class ProteinPiece : MonoBehaviour
     public void SetLogicBlock(string logicBlockName)
     {
         LogicBlock = Application.settings.FindLogicBlock(logicBlockName);
-        if (LogicBlock == null)
-        {
-            LogicBlock = new()
-            {
-                blockType = ProteinLogicBlock.BlockType.ELSE,
-                pieceName = logicBlockName,
-                action = Application.settings.defaultAction,
-            };
-        }
 
         image.baseFileName = logicBlockName + imageFileExtension;
         image.Load(Application.language);

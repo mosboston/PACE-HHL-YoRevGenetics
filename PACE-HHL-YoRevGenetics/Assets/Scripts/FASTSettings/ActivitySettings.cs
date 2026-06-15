@@ -17,7 +17,15 @@ public class ActivitySettings : BaseSettings
 
     public ProteinLogicBlock GetLogicBlockByMarkerID(int markerID)
     {
-        return allProtienLogic.First(kv => kv.Value.markerID == markerID).Value;
+        ProteinLogicBlock[] options = allProtienLogic.Where(kv => kv.Value.markerID == markerID).Select(kv => kv.Value).ToArray();
+        return options.Length > 0 ? options[0] : null;
+    }
+
+    public ProteinLogicBlock FindLogicBlock(string blockName)
+    {
+        if (!allProtienLogic.TryGetValue(blockName, out ProteinLogicBlock result))
+            result = null;
+        return result;
     }
 
     public string defaultAction = "fail";

@@ -73,6 +73,9 @@ public class ProteinLogicLoader : StartupLoader
                 result = false;
             }
 
+            foreach (ProteinLogicBlock elseBlock in proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE))
+                elseBlock.action = Application.settings.defaultAction;
+
             Application.settings.allProtienLogic = proteinLogicBlocks.ToDictionary(b => b.pieceName);
 
             proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);
