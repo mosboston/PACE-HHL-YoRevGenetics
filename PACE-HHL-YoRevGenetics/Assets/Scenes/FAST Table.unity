@@ -314,11 +314,6 @@ MonoBehaviour:
   offsetSize: {x: 0, y: 0}
   initialSize: {x: 0, y: 0}
   parentCanvas: {fileID: 0}
---- !u!224 &440421231 stripped
-RectTransform:
-  m_CorrespondingSourceObject: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-  m_PrefabInstance: {fileID: 8637759108324378576}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &564938569
 GameObject:
   m_ObjectHideFlags: 0
@@ -941,6 +936,28 @@ MonoBehaviour:
         - m_Target: {fileID: 1366617272}
           m_TargetAssemblyTypeName: Protein, Assembly-CSharp
           m_MethodName: DoAction
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - name: Toggle Marker Visuals
+    key: 109
+    ctrl: 0
+    shift: 0
+    alt: 0
+    win: 0
+    onKeyUp: 0
+    unityEvent:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8867155717550446121}
+          m_TargetAssemblyTypeName: BlockMarkerManager, Assembly-CSharp
+          m_MethodName: ToggleBlockMarkerVisuals
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -9379,8 +9396,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 440421231}
+  m_Children: []
   m_Father: {fileID: 7803768812327100943}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -20616,99 +20632,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 5, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!1001 &8637759108324378576
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 3225673230434713975}
-    m_Modifications:
-    - target: {fileID: 3224670067163021055, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: isDrawTool
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6475462378181004010, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_Name
-      value: BlockMarker
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_Pivot.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_Pivot.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchorMin.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -25
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8921884222455185795, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
 --- !u!224 &8649788825752209787
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21078,6 +21001,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8022677098188343084}
   - component: {fileID: 7208786367382196165}
+  - component: {fileID: 8867155717550446121}
   m_Layer: 0
   m_Name: Marker Tracking System
   m_TagString: Untagged
@@ -21085,6 +21009,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &8867155717550446121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8867155717550446120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28e9109873ea6ba439b6e0d485002d70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BlockMarkerManager
+  showVisuals: 0
+  blockMarkerParent: {fileID: 3225673230434713975}
+  blockMarkerPrefab: {fileID: 3224670067163021055, guid: 19305c2dfaa6bc84593d62f8510d5af8, type: 3}
 --- !u!222 &8889806674202885222
 CanvasRenderer:
   m_ObjectHideFlags: 0

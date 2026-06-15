@@ -5,6 +5,8 @@ using Application = FAST.Application;
 
 public class BlockMarker : Block
 {
+    public bool showVisual;
+
     [SerializeField] GameObject BlockVisual;
 
     public int markerID;
@@ -33,6 +35,8 @@ public class BlockMarker : Block
 
     private void Update()
     {
+        BlockVisual.SetActive(showVisual && IsTracked);
+
         if (!IsTracked)
             return;
 
