@@ -1,5 +1,6 @@
 using FAST;
 using UnityEngine;
+using UnityEngine.UI;
 
 using Application = FAST.Application;
 
@@ -8,12 +9,13 @@ public class BlockMarker : Block
     public bool showVisual;
 
     [SerializeField] GameObject BlockVisual;
+    [SerializeField] Image image;
 
-    public int markerID;
+    public int MarkerID { get; private set; }
 
     protected MarkerTrackingSystem trackingSystem;
 
-    public MarkerData MarkerData => trackingSystem.markerDataLUT[markerID];
+    public MarkerData MarkerData => trackingSystem.markerDataLUT[MarkerID];
     public bool IsTracked => MarkerData.trackingState == MarkerData.TrackingState.Tracked;
 
     protected override void Awake()
@@ -21,20 +23,17 @@ public class BlockMarker : Block
         base.Awake();
         trackingSystem = GetComponentInParent<MarkerTrackingSystem>();
 
-        ProteinLogicBlock block = Application.settings.GetLogicBlockByMarkerID(markerID);
-        if (block != null)
-        {
-            SetName(block.pieceName);
-        }
-        else
-        {
-            Debug.LogError($"Could not find protein logic block with id {markerID}! Disabling this block marker");
-            gameObject.SetActive(false);
-        }
+        MarkerID = -1;
     }
 
     private void Update()
     {
+        if (MarkerID < 0)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+
         BlockVisual.SetActive(showVisual && IsTracked);
 
         if (!IsTracked)
@@ -48,5 +47,32 @@ public class BlockMarker : Block
         position.y *= -trackingSystem.Height;
 
         transform.position = position;
+    }
+
+    public void SetMarkerID(int markerID)
+    {
+        gameObject.SetActive(true);
+
+        MarkerID = markerID;
+        ProteinLogicBlock block = Application.settings.GetLogicBlockByMarkerID(MarkerID);
+        if (block != null)
+        {
+            SetName(block.pieceName);
+            image.color = block.color;
+        }
+        else if (MarkerID == Application.settings.startBlockID)
+        {
+            SetName("START");
+            image.color = Color.green;
+        }
+        else if (MarkerID == Application.settings.endBlockID)
+        {
+            SetName("END");
+            image.color = Color.red;
+        }
+        else
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

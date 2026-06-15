@@ -126,12 +126,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2953240e8d2022e47b446c99b74fa53a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BlockMarker
-  isDrawTool: 0
-  isTracked: 0
-  markerIds: 00000000
-  trackingSystem: {fileID: 0}
-  canvasGroup: {fileID: 0}
+  blockName: 
+  showVisual: 0
   BlockVisual: {fileID: 3677544124075301790}
+  image: {fileID: 1939861258942357854}
+  markerID: 0
 --- !u!50 &-6497992194632206551
 Rigidbody2D:
   serializedVersion: 5

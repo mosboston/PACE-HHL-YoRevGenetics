@@ -19,7 +19,7 @@ public class BlockMarkerManager : MonoBehaviour
         for (int i = 0; i < settings.maxNumMarkers; i++)
         {
             blockMarkers[i] = Instantiate(blockMarkerPrefab, blockMarkerParent);
-            blockMarkers[i].markerID = i;
+            blockMarkers[i].SetMarkerID(i);
         }
 
         UpdateVisualStatus();
