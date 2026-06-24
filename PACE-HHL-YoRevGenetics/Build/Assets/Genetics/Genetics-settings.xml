@@ -34,7 +34,7 @@
     <udpInputCount>1</udpInputCount>
   </whiteScreenSettings>
   <udpConnectionSettings id="Computer Vision">
-    <localReceivePort>60013</localReceivePort>
+    <localReceivePort>60012</localReceivePort>
     <localSendPort>60010</localSendPort>
     <remoteIpAddress>127.0.0.1</remoteIpAddress>
     <remotePort>50000</remotePort>
