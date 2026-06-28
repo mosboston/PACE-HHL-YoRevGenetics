@@ -11,18 +11,30 @@ public class ActivitySettings : BaseSettings
     [XmlIgnore]
     public List<ProteinLogicBlock> orderedProteinLogic;
     [XmlIgnore]
-    public List<string> proteinPieceNames;
+    public Dictionary<string, ProteinLogicBlock> allProtienLogic;
     [XmlIgnore]
-    public string defaultAction;
+    public List<string> ProteinPieceNames { get => allProtienLogic.Keys.ToList(); }
+
+    public ProteinLogicBlock GetLogicBlockByMarkerID(int markerID)
+    {
+        ProteinLogicBlock[] options = allProtienLogic.Where(kv => kv.Value.markerID == markerID).Select(kv => kv.Value).ToArray();
+        return options.Length > 0 ? options[0] : null;
+    }
+
+    public ProteinLogicBlock FindLogicBlock(string blockName)
+    {
+        if (!allProtienLogic.TryGetValue(blockName, out ProteinLogicBlock result))
+            result = null;
+        return result;
+    }
+
+    public string defaultAction = "fail";
+    public int startBlockID = 22;
+    public int endBlockID = 23;
 
     [XmlIgnore]
     public Dictionary<string, RectTransform> pointsOfInterest = new();
 
-    public ProteinLogicBlock FindLogicBlock(string blockName)
-    {
-        ProteinLogicBlock block = orderedProteinLogic.Find(b => b.pieceName.Equals(blockName));
-        //if (block == null)
-        //    Debug.LogError($"Could not find block with name '{blockName}' in {Application.skin}-proteinLogic.xml");
-        return block;
-    }
+    [XmlIgnore]
+    public MarkerTrackingSettings markerTrackingSettings = new();
 }

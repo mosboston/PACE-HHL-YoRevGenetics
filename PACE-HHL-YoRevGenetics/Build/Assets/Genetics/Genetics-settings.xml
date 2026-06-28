@@ -33,18 +33,16 @@
     <isUdpInput>false</isUdpInput>
     <udpInputCount>1</udpInputCount>
   </whiteScreenSettings>
+  <udpConnectionSettings id="Computer Vision">
+    <localReceivePort>60012</localReceivePort>
+    <localSendPort>60010</localSendPort>
+    <remoteIpAddress>127.0.0.1</remoteIpAddress>
+    <remotePort>50000</remotePort>
+    <prefixErrorMessage />
+    <replacementErrorMessage />
+    <suffixErrorMessage />
+  </udpConnectionSettings>
   <alignmentSettings>
-    <AlignmentTransformSettings name="PieceParent">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="0.1297363" />
-    </AlignmentTransformSettings>
-    <AlignmentRectTransformSettings name="ProteinWinSpot">
-      <position x="-19.40541" y="-15.18918" z="0" />
-      <rotation z="-3" />
-      <scale xyz="0" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
     <AlignmentTransformSettings name="ProteinImage">
       <position x="0" y="0" z="0" />
       <rotation z="0" />
@@ -55,11 +53,37 @@
       <rotation z="0" />
       <scale xyz="0" />
     </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="Tracking Area">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="1500" y="725" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="BounceSpot">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
     <AlignmentRectTransformSettings name="ConfirmationSite">
       <position x="-15" y="-4" z="0" />
       <rotation z="0" />
       <scale xyz="-0.15" />
       <size x="0" y="0" />
     </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ProteinWinSpot">
+      <position x="-19.40541" y="-15.18918" z="0" />
+      <rotation z="-3" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentTransformSettings name="PieceParent">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0.1297363" />
+    </AlignmentTransformSettings>
   </alignmentSettings>
+  <defaultAction>fail</defaultAction>
+  <startBlockID>22</startBlockID>
+  <endBlockID>23</endBlockID>
 </ActivitySettings>

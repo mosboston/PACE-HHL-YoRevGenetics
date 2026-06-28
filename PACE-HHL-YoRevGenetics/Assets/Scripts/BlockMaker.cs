@@ -11,7 +11,7 @@ public class BlockMaker : MonoBehaviour
 
     private void Start()
     {
-        List<string> proteinPieceNames = Application.settings.proteinPieceNames;
+        List<string> proteinPieceNames = Application.settings.ProteinPieceNames;
 
         for (int i = 0; i < proteinPieceNames.Count; i++)
         {
@@ -19,8 +19,8 @@ public class BlockMaker : MonoBehaviour
 
             newBlock.SetName(proteinPieceNames[i]);
 
-            float x = blockSeparation * (i % 4);
-            float y = -blockSeparation * (i / 4);
+            float x = blockSeparation * (i % blocksPerRow);
+            float y = -blockSeparation * (i / blocksPerRow);
             newBlock.transform.localPosition = new Vector3(x, y);
         }
     }

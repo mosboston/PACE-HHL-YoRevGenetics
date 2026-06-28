@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using Unity.VisualScripting;
 
 using Application = FAST.Application;
 
@@ -50,33 +51,34 @@ public class ProteinLogicLoader : StartupLoader
             proteinLogicBlocks = serializer.Deserialize(stream) as List<ProteinLogicBlock>;
             stream.Close();
 
-            List<ProteinLogicBlock> defaultBlocks = proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.DEFAULT);
-            if (defaultBlocks.Count < 1)
+            // Check for duplicate markerIDs
+            List<int> duplicateMarkerIDs = proteinLogicBlocks.GroupBy(b => b.markerID).Where(g => g.Count() > 1).Select(g => g.Key).ToList();
+            if (duplicateMarkerIDs.Count > 0)
             {
-                errorTitle = "No default action found!";
-                errorMessage = "There must be 1 Protein Logic Block with a block type of Default";
-                return false;
+                errorTitle = "There are duplicate marker IDs!";
+                foreach (int id in  duplicateMarkerIDs)
+                    errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == id).Select(b => b.pieceName).ToCommaSeparatedString()} have ID {id}\n";
+                result = false;
             }
-            if (defaultBlocks.Count > 1)
+            if (proteinLogicBlocks.Any(b => b.markerID == Application.settings.startBlockID))
             {
-                errorTitle = "More than one default action found!";
-                errorMessage = "There must be only 1 Protein Logic Block with a block type of Default";
-                return false;
+                errorTitle = "There are duplicate marker IDs!";
+                errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == Application.settings.startBlockID).Select(b => b.pieceName).ToCommaSeparatedString()} has the start block ID ({Application.settings.startBlockID})\n";
+                result = false;
             }
-            if (string.IsNullOrEmpty(defaultBlocks[0].action))
+            if (proteinLogicBlocks.Any(b => b.markerID == Application.settings.endBlockID))
             {
-                errorTitle = "No action assigned to default logic block!";
-                errorMessage = "The default logic block was found but is missing an action";
-                return false;
+                errorTitle = "There are duplicate marker IDs!";
+                errorMessage += $"\t{proteinLogicBlocks.Where(b => b.markerID == Application.settings.endBlockID).Select(b => b.pieceName).ToCommaSeparatedString()} has the end block ID ({Application.settings.endBlockID})\n";
+                result = false;
             }
 
-            Application.settings.defaultAction = defaultBlocks[0].action;
-            proteinLogicBlocks.Remove(defaultBlocks[0]);
+            foreach (ProteinLogicBlock elseBlock in proteinLogicBlocks.FindAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE))
+                elseBlock.action = Application.settings.defaultAction;
 
-            Application.settings.proteinPieceNames = proteinLogicBlocks.Select(b => b.pieceName).ToList();
+            Application.settings.allProtienLogic = proteinLogicBlocks.ToDictionary(b => b.pieceName);
 
             proteinLogicBlocks.RemoveAll(b => b.blockType == ProteinLogicBlock.BlockType.ELSE);
-
             Application.settings.orderedProteinLogic = proteinLogicBlocks;
         }
         catch (Exception exception)

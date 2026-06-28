@@ -79,6 +79,8 @@ public class Protein : MonoBehaviour
             yield return new WaitForSeconds(animationWaitTime);
         }
 
+        float realAngle = angle ?? 0;
+
         if (!Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out RectTransform target))
         {
             Debug.LogError($"'{PointsOfInterest.kProteinWinSpot}' is not set but it is expected!");
@@ -88,11 +90,11 @@ public class Protein : MonoBehaviour
         switch (action)
         {
             case "win":
-                yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength);
+                yield return MoveToRectTransformWithAngle(target, realAngle, animationLength);
                 break;
 
             case "kill":
-                yield return MoveToRectTransformWithAngle(target, angle.Value, animationLength, EaseInCubic);
+                yield return MoveToRectTransformWithAngle(target, realAngle, animationLength, EaseInCubic);
                 break;
 
             case "fail":
@@ -100,7 +102,7 @@ public class Protein : MonoBehaviour
                 if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBounceSpot, out RectTransform bounceSpot))
                 {
                     yield return BreakWhenInRange(bounceSpot.position, bubbleSize,
-                        MoveToRectTransformWithAngle(target, angle.Value, animationLength));
+                        MoveToRectTransformWithAngle(target, realAngle, animationLength));
                     RectTransform bouncedTransform = RandomRectTransform(bounceSpot.localEulerAngles.z, randDirection, Rotation, randForward, randDistance.x, randDistance.y);
                     yield return MoveToRectTransform(bouncedTransform, animationLength, EaseOutCubic);
                 }
@@ -261,7 +263,9 @@ public class Protein : MonoBehaviour
             }
         }
 
-        Debug.Log(action);
+        action ??= Application.settings.defaultAction;
+
+        Debug.Log($"{action} at {(angle.HasValue ? angle.Value : "null")} degrees");
         return (action, angle);
     }
 
