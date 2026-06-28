@@ -975,6 +975,13 @@ MonoBehaviour:
     alt: 0
     win: 0
     gameObject: {fileID: 1474160543}
+  - name: Toggle Mouse Blocks
+    key: 98
+    ctrl: 0
+    shift: 0
+    alt: 0
+    win: 0
+    gameObject: {fileID: 1767141748}
   uiButtonKeys: []
   uiToggleKeys: []
 --- !u!4 &1317696709
@@ -1198,6 +1205,7 @@ GameObject:
   - component: {fileID: 1387142407}
   - component: {fileID: 1387142406}
   - component: {fileID: 1387142405}
+  - component: {fileID: 1387142408}
   m_Layer: 0
   m_Name: Ribosome
   m_TagString: Untagged
@@ -1365,6 +1373,28 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1387142408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387142401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6458cde10d097b41942b2376aa13fce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Museum-Of-Science.FAST-SDK::FAST.AlignmentRectTransform
+  drawingCamera: {fileID: 0}
+  offsetPosition: {x: 0, y: 0, z: 0}
+  offsetRotation: 0
+  offsetScale: 0
+  initialPosition: {x: 0, y: 0, z: 0}
+  initialRotation: {x: 0, y: 0, z: 0, w: 0}
+  initialScale: {x: 0, y: 0, z: 0}
+  offsetSize: {x: 0, y: 0}
+  initialSize: {x: 0, y: 0}
+  parentCanvas: {fileID: 0}
 --- !u!1001 &1413898116
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1686,7 +1716,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1767141749
 RectTransform:
   m_ObjectHideFlags: 0
