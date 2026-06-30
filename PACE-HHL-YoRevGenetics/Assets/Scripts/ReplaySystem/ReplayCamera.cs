@@ -1,12 +1,27 @@
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+
+public struct ReplayData
+{
+    public int replayWidth;
+    public int replayHeight;
+    public float timePerFrame;
+    public List<Texture2D> frames;
+    public bool doneRecording;
+}
 
 [RequireComponent(typeof(Camera))]
 public class ReplayCamera : MonoBehaviour
 {
-    [SerializeField] RawImage testImage;
+    public Action<ReplayData> onRecordingDone;
 
+    [Header("Settings")]
+    [Tooltip("frames/sec")]
+    float framerate = 24;
+
+    [Header("References")]
     [SerializeField] RectTransform captureArea;
     Rect CaptureAreaScreenRect { get
         {
@@ -27,10 +42,31 @@ public class ReplayCamera : MonoBehaviour
     }
 
     Camera cam;
+    bool isRecording;
+    ReplayData latestReplay;
 
-    public void TestFunc()
+    public void StartRecording()
     {
-        StartCoroutine(CaptureFrame());
+        isRecording = true;
+
+        latestReplay = new()
+        {
+            replayWidth = (int)CaptureAreaScreenRect.width,
+            replayHeight = (int)CaptureAreaScreenRect.height,
+            timePerFrame = 1/framerate,
+            frames = new(),
+            doneRecording = false,
+        };
+
+        StartCoroutine(Record());
+    }
+
+    public void StopRecording()
+    {
+        latestReplay.doneRecording = true;
+        isRecording = false;
+
+        onRecordingDone?.Invoke(latestReplay);
     }
 
     private void Awake()
@@ -38,7 +74,16 @@ public class ReplayCamera : MonoBehaviour
         cam = GetComponent<Camera>();
     }
 
-    public IEnumerator CaptureFrame()
+    private IEnumerator Record()
+    {
+        while (isRecording)
+        {
+            StartCoroutine(CaptureFrame(latestReplay));
+            yield return new WaitForSeconds(latestReplay.timePerFrame);
+        }
+    }
+
+    public IEnumerator CaptureFrame(ReplayData replayData)
     {
         yield return new WaitForEndOfFrame();
 
@@ -49,6 +94,6 @@ public class ReplayCamera : MonoBehaviour
         frame.ReadPixels(CaptureAreaScreenRect, 0, 0);
         frame.Apply();
 
-        testImage.texture = frame;
+        replayData.frames.Add(frame);
     }
 }
