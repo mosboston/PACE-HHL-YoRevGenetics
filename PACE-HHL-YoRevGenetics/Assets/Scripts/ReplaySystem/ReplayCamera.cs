@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct ReplayData
+public class ReplayData
 {
-    public int replayWidth;
-    public int replayHeight;
+    public int width;
+    public int height;
     public float timePerFrame;
     public List<Texture2D> frames;
     public bool doneRecording;
@@ -51,8 +51,8 @@ public class ReplayCamera : MonoBehaviour
 
         latestReplay = new()
         {
-            replayWidth = (int)CaptureAreaScreenRect.width,
-            replayHeight = (int)CaptureAreaScreenRect.height,
+            width = (int)CaptureAreaScreenRect.width,
+            height = (int)CaptureAreaScreenRect.height,
             timePerFrame = 1/framerate,
             frames = new(),
             doneRecording = false,

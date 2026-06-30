@@ -47,6 +47,13 @@ public class ReplayViewer : MonoBehaviour
         lastFrameTime = 0;
     }
 
+    public void Restart()
+    {
+        currentTime = 0;
+        currentFrame = 0;
+        lastFrameTime = 0;
+    }
+
     private void Update()
     {
         image.enabled = isPlaying;
@@ -62,12 +69,21 @@ public class ReplayViewer : MonoBehaviour
 
         if (currentFrame >= replayData.frames.Count)
         {
-            Stop();
+            Restart();
             return;
         }
 
         image.texture = replayData.frames[currentFrame];
 
         currentTime += Time.deltaTime;
+    }
+
+    private void LateUpdate()
+    {
+        if (replayData == null || !image.enabled)
+            return;
+
+        float replayAspect = (float)replayData.width / replayData.height;
+        image.rectTransform.sizeDelta = new(replayAspect * image.rectTransform.sizeDelta.y, image.rectTransform.sizeDelta.y);
     }
 }
