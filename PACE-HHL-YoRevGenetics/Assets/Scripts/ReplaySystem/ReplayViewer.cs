@@ -2,22 +2,24 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RawImage))]
+[RequireComponent(typeof(RectTransform))]
 public class ReplayViewer : MonoBehaviour
 {
     [SerializeField] ReplayCamera replayCamera;
+    [SerializeField] RawImage image;
 
     private bool isPlaying;
     private float currentTime;
     private int currentFrame;
     private float lastFrameTime;
 
-    RawImage image;
+    RectTransform rectTransform;
+
     ReplayData replayData;
 
     private void Awake()
     {
-        image = GetComponent<RawImage>();
+        rectTransform = transform as RectTransform;
     }
 
     private void OnEnable()
@@ -84,6 +86,6 @@ public class ReplayViewer : MonoBehaviour
             return;
 
         float replayAspect = (float)replayData.width / replayData.height;
-        image.rectTransform.sizeDelta = new(replayAspect * image.rectTransform.sizeDelta.y, image.rectTransform.sizeDelta.y);
+        rectTransform.sizeDelta = new(replayAspect * rectTransform.sizeDelta.y, rectTransform.sizeDelta.y);
     }
 }

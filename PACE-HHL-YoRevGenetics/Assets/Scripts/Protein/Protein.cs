@@ -4,12 +4,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 using Application = FAST.Application;
 using Random = UnityEngine.Random;
 
 public class Protein : MonoBehaviour
 {
+    public UnityEvent<string> onProteinActionStarted;
+    public UnityEvent onProteinActionDone;
+
     [Header("General Animations")]
     [SerializeField] float animationLength = 1;
     [SerializeField] float animationWaitTime = 0.25f;
@@ -73,6 +77,8 @@ public class Protein : MonoBehaviour
 
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
+        onProteinActionStarted?.Invoke(action);
+
         if (angle.HasValue)
         {
             yield return OrientToAngle(angle.Value, animationLength);
@@ -119,7 +125,8 @@ public class Protein : MonoBehaviour
         }
 
         yield return new WaitForSeconds(animationEndTime);
-        BackToHome();
+
+        onProteinActionDone?.Invoke();
     }
 
     private IEnumerator MoveToRectTransform(RectTransform transform, float animationLength, Func<float, float> animationCurve = null) =>
