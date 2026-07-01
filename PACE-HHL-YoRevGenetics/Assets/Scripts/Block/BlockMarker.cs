@@ -16,7 +16,7 @@ public class BlockMarker : Block
     protected MarkerTrackingSystem trackingSystem;
 
     public MarkerData MarkerData => trackingSystem.markerDataLUT[MarkerID];
-    public bool IsTracked => MarkerData.trackingState == MarkerData.TrackingState.Tracked;
+    public bool IsTracked => MarkerData.trackingState != MarkerData.TrackingState.NotTracked;
 
     protected override void Awake()
     {
