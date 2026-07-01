@@ -11,6 +11,14 @@ using Random = UnityEngine.Random;
 
 public class Protein : MonoBehaviour
 {
+    public enum State
+    {
+        Idle,
+        MidAction,
+        PostAction,
+    }
+    State currentState = State.Idle;
+
     public UnityEvent<string> onProteinActionStarted;
     public UnityEvent onProteinActionDone;
 
@@ -59,10 +67,28 @@ public class Protein : MonoBehaviour
         extraTransform = temp.AddComponent<RectTransform>();
     }
 
+    public void OnInteractButton()
+    {
+        switch (currentState)
+        {
+            case State.Idle:
+                DoAction();
+                break;
+
+            case State.MidAction:
+                // do nothing
+                break;
+
+            case State.PostAction:
+                FullReset();
+                break;
+        }
+    }
+
     // ---==========---
     //  Action related
     // ---==========---
-    public void DoAction()
+    private void DoAction()
     {
         var (action, angle) = ResolveAction();
 
@@ -77,6 +103,7 @@ public class Protein : MonoBehaviour
 
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
+        currentState = State.MidAction;
         onProteinActionStarted?.Invoke(action);
 
         if (angle.HasValue)
@@ -126,6 +153,7 @@ public class Protein : MonoBehaviour
 
         yield return new WaitForSeconds(animationEndTime);
 
+        currentState = State.PostAction;
         onProteinActionDone?.Invoke();
     }
 
@@ -352,6 +380,8 @@ public class Protein : MonoBehaviour
             homeRotation = Rotation;
         else
             Rotation = homeRotation.Value;
+
+        currentState = State.Idle;
     }
 
     // ---==========---

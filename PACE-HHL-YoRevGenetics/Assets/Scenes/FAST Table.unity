@@ -1342,7 +1342,7 @@ MonoBehaviour:
   - name: Default
     type: 0
   unityEventKeys:
-  - name: Do Action
+  - name: Interact
     key: 32
     ctrl: 0
     shift: 0
@@ -1354,7 +1354,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 1366617272}
           m_TargetAssemblyTypeName: Protein, Assembly-CSharp
-          m_MethodName: DoAction
+          m_MethodName: OnInteractButton
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
