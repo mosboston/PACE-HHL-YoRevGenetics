@@ -19,8 +19,10 @@ public class Protein : MonoBehaviour
     }
     State currentState = State.Idle;
 
+    [Header("Events")]
     public UnityEvent<string> onProteinActionStarted;
     public UnityEvent onProteinActionDone;
+    public UnityEvent onFullReset;
 
     [Header("General Animations")]
     [SerializeField] float animationLength = 1;
@@ -358,6 +360,8 @@ public class Protein : MonoBehaviour
     {
         ResetPieces();
         BackToHome();
+
+        onFullReset?.Invoke();
     }
 
     public void ResetPieces()
