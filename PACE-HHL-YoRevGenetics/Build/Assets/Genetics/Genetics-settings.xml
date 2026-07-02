@@ -48,8 +48,37 @@
       <rotation z="0" />
       <scale xyz="-0.0351318" />
     </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="BounceSpot">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
     <AlignmentTransformSettings name="Protein">
       <position x="0" y="-29.34" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+    </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="Result">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ProteinWinSpot">
+      <position x="-19.40541" y="-15.18918" z="0" />
+      <rotation z="-3" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ReplayCaptureArea">
+      <position x="232.4325" y="128.3784" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="801.3512" y="374.3243" />
+    </AlignmentRectTransformSettings>
+    <AlignmentTransformSettings name="ReplayViewer">
+      <position x="0" y="0" z="0" />
       <rotation z="0" />
       <scale xyz="0" />
     </AlignmentTransformSettings>
@@ -59,29 +88,23 @@
       <scale xyz="0" />
       <size x="1500" y="725" />
     </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="BounceSpot">
+    <AlignmentTransformSettings name="PieceParent">
       <position x="0" y="0" z="0" />
       <rotation z="0" />
-      <scale xyz="0" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
+      <scale xyz="0.1297363" />
+    </AlignmentTransformSettings>
     <AlignmentRectTransformSettings name="ConfirmationSite">
       <position x="-15" y="-4" z="0" />
       <rotation z="0" />
       <scale xyz="-0.15" />
       <size x="0" y="0" />
     </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="ProteinWinSpot">
-      <position x="-19.40541" y="-15.18918" z="0" />
-      <rotation z="-3" />
+    <AlignmentRectTransformSettings name="Ribosome">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
       <scale xyz="0" />
       <size x="0" y="0" />
     </AlignmentRectTransformSettings>
-    <AlignmentTransformSettings name="PieceParent">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="0.1297363" />
-    </AlignmentTransformSettings>
   </alignmentSettings>
   <defaultAction>fail</defaultAction>
   <startBlockID>22</startBlockID>

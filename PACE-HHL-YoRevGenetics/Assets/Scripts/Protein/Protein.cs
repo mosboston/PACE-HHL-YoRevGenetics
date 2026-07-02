@@ -4,12 +4,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 using Application = FAST.Application;
 using Random = UnityEngine.Random;
 
 public class Protein : MonoBehaviour
 {
+    public enum State
+    {
+        Idle,
+        MidAction,
+        PostAction,
+    }
+    State currentState = State.Idle;
+
+    [Header("Events")]
+    public UnityEvent<string> onProteinActionStarted;
+    public UnityEvent onProteinActionDone;
+    public UnityEvent onFullReset;
+
     [Header("General Animations")]
     [SerializeField] float animationLength = 1;
     [SerializeField] float animationWaitTime = 0.25f;
@@ -55,10 +69,28 @@ public class Protein : MonoBehaviour
         extraTransform = temp.AddComponent<RectTransform>();
     }
 
+    public void OnInteractButton()
+    {
+        switch (currentState)
+        {
+            case State.Idle:
+                DoAction();
+                break;
+
+            case State.MidAction:
+                // do nothing
+                break;
+
+            case State.PostAction:
+                FullReset();
+                break;
+        }
+    }
+
     // ---==========---
     //  Action related
     // ---==========---
-    public void DoAction()
+    private void DoAction()
     {
         var (action, angle) = ResolveAction();
 
@@ -73,6 +105,9 @@ public class Protein : MonoBehaviour
 
     private IEnumerator DoActionCoroutine(string action, float? angle)
     {
+        currentState = State.MidAction;
+        onProteinActionStarted?.Invoke(action);
+
         if (angle.HasValue)
         {
             yield return OrientToAngle(angle.Value, animationLength);
@@ -119,7 +154,9 @@ public class Protein : MonoBehaviour
         }
 
         yield return new WaitForSeconds(animationEndTime);
-        BackToHome();
+
+        currentState = State.PostAction;
+        onProteinActionDone?.Invoke();
     }
 
     private IEnumerator MoveToRectTransform(RectTransform transform, float animationLength, Func<float, float> animationCurve = null) =>
@@ -323,6 +360,8 @@ public class Protein : MonoBehaviour
     {
         ResetPieces();
         BackToHome();
+
+        onFullReset?.Invoke();
     }
 
     public void ResetPieces()
@@ -345,6 +384,8 @@ public class Protein : MonoBehaviour
             homeRotation = Rotation;
         else
             Rotation = homeRotation.Value;
+
+        currentState = State.Idle;
     }
 
     // ---==========---

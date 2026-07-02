@@ -14,12 +14,29 @@ public class BlockReader : MonoBehaviour
 
     bool reading = false;
 
+    Animator anim;
+    static readonly int BlockReadHash = Animator.StringToHash("BlockRead");
+
+    private void Awake()
+    {
+        anim = GetComponent<Animator>();
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.gameObject.TryGetComponent(out Block block))
             return;
 
         Debug.Log(block.blockName);
+
+        if (readBlocks.Contains(block))
+        {
+            Debug.LogWarning("Attempted to read block that alraedy has been read");
+            return;
+        }
+
+        if (anim != null)
+            anim.Play(BlockReadHash);
 
         if (block.IsStart)
         {
