@@ -7,6 +7,7 @@ using UnityEngine;
 public class ReplayCamera : MonoBehaviour
 {
     public Action<ReplayData> onRecordingDone;
+    public ReplayData LatestReplay => latestReplay;
 
     [Header("Settings")]
     [Tooltip("frames/sec")]

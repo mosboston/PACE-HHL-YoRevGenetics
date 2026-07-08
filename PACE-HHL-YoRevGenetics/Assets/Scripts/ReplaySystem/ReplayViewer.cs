@@ -25,6 +25,11 @@ public class ReplayViewer : MonoBehaviour
     private void OnEnable()
     {
         replayCamera.onRecordingDone += PlayReplay;
+
+        if (replayCamera.LatestReplay != null)
+        {
+            PlayReplay(replayCamera.LatestReplay);
+        }
     }
 
     private void OnDisable()
