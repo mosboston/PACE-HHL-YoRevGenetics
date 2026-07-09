@@ -1,14 +1,25 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering;
-using FAST;
 
 using Application = FAST.Application;
 
 
 public class PointsOfInterest : MonoBehaviour
 {
+    public static Dictionary<string, RectTransform> dict => Application.settings.pointsOfInterest;
+
+    public static bool TryGet(string key, out RectTransform transform)
+    {
+        if (!dict.TryGetValue(key, out transform))
+        {
+            Debug.LogError($"Key of '{key}' can not be found as a point of interest!");
+            return false;
+        }
+
+        return true;
+    }
+
     [Serializable]
     public struct KeyPoint
     {

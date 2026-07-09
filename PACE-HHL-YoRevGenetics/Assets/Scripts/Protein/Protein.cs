@@ -41,6 +41,8 @@ public class Protein : MonoBehaviour
 
     RectTransform extraTransform;
 
+    Dictionary<string, object> commandArgs;
+
     List<ProteinPiece> _proteinPieces = new();
     public List<ProteinPiece> ProteinPieces { get => _proteinPieces; private set => _proteinPieces = value; }
     public bool ProteinContainsPiece(string pieceName)
@@ -67,6 +69,8 @@ public class Protein : MonoBehaviour
     {
         var temp = new GameObject("extraTransform");
         extraTransform = temp.AddComponent<RectTransform>();
+
+        PopulateArgDictionary();
     }
 
     public void OnInteractButton()
@@ -90,6 +94,15 @@ public class Protein : MonoBehaviour
     // ---==========---
     //  Action related
     // ---==========---
+    private void PopulateArgDictionary()
+    {
+        commandArgs = new()
+        {
+            { AnimationCommand.kProtein, this },
+            { AnimationCommand.kAngle, 0.0f },
+        };
+    }
+
     private void DoAction()
     {
         var (action, angle) = ResolveAction();
@@ -100,7 +113,47 @@ public class Protein : MonoBehaviour
             return;
         }
 
-        StartCoroutine(DoActionCoroutine(action, angle));
+        //StartCoroutine(DoActionCoroutine(action, angle));
+
+        ProteinAnimation animation = new()
+        {
+            name = "TEST",
+
+            animationCommands = new()
+            {
+                new MoveProteinToCommand()
+                {
+                    timeCurve = TimedCommand.EaseInCubic,
+                    target = PointsOfInterest.kProteinWinSpot,
+                }
+            }
+        };
+        StartCoroutine(DoProteinAnimation(animation, angle));
+    }
+
+    private IEnumerator DoProteinAnimation(ProteinAnimation animation, float? angle)
+    {
+        currentState = State.MidAction;
+        onProteinActionStarted?.Invoke(animation.name);
+
+        if (angle.HasValue)
+        {
+            yield return OrientToAngle(angle.Value, animationLength);
+            yield return new WaitForSeconds(animationWaitTime);
+        }
+
+        commandArgs[AnimationCommand.kAngle] = angle ?? 0;
+
+        // Run each command sequentially
+        foreach (AnimationCommand command in animation.animationCommands)
+        {
+            yield return command.RunCommand(commandArgs);
+        }
+
+        yield return new WaitForSeconds(animationEndTime);
+
+        currentState = State.PostAction;
+        onProteinActionDone?.Invoke();
     }
 
     private IEnumerator DoActionCoroutine(string action, float? angle)

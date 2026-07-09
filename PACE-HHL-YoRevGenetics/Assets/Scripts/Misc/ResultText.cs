@@ -13,7 +13,11 @@ public class ResultText : MonoBehaviour
         textInfo = new CultureInfo("en-US", false).TextInfo;
     }
 
-    public void SetResultText(string result) => resultText.text = textInfo.ToTitleCase(result);
+    public void SetResultText(string result)
+    {
+        result ??= string.Empty;
+        resultText.text = textInfo.ToTitleCase(result);
+    }
 
     public void ResetResultText() => SetResultText("");
 }
