@@ -115,19 +115,7 @@ public class Protein : MonoBehaviour
 
         //StartCoroutine(DoActionCoroutine(action, angle));
 
-        ProteinAnimation animation = new()
-        {
-            name = "TEST",
-
-            animationCommands = new()
-            {
-                new MoveProteinToCommand()
-                {
-                    timeCurve = TimedCommand.EaseInCubic,
-                    target = PointsOfInterest.kProteinWinSpot,
-                }
-            }
-        };
+        ProteinAnimation animation = Application.settings.proteinAnimations["TEST"];
         StartCoroutine(DoProteinAnimation(animation, angle));
     }
 

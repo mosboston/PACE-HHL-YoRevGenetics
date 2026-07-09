@@ -14,6 +14,8 @@ public class ActivitySettings : BaseSettings
     public Dictionary<string, ProteinLogicBlock> allProtienLogic;
     [XmlIgnore]
     public List<string> ProteinPieceNames { get => allProtienLogic.Keys.ToList(); }
+    [XmlIgnore]
+    public Dictionary<string, ProteinAnimation> proteinAnimations;
 
     public ProteinLogicBlock GetLogicBlockByMarkerID(int markerID)
     {

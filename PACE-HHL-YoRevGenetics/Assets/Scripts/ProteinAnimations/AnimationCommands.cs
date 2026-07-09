@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[Serializable]
 public abstract class AnimationCommand
 {
     public abstract IEnumerator RunCommand(Dictionary<string, object> args);
@@ -15,7 +14,8 @@ public abstract class AnimationCommand
 public abstract class TimedCommand : AnimationCommand
 {
     public float commandLength = 0.75f;
-    public Func<float, float> timeCurve = SmoothStep;
+    public string timeCurve = "SmoothStep";
+    public Func<float, float> TimeCurve => timeCurves[timeCurve];
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
@@ -26,19 +26,13 @@ public abstract class TimedCommand : AnimationCommand
         }
     }
 
-    // ---==========---
-    //  Util Shorthand
-    // ---==========---
-
-    // All of these expect domain and range of [0, 1]
-
-    public static float SmoothStep(float x) => Mathf.SmoothStep(0.0f, 1.0f, x);
-
-    public static float Linear(float x) => x;
-
-    public static float EaseInCubic(float x) => x * x * x;
-
-    public static float EaseOutCubic(float x) { float u = (1 - x); return 1 - u * u * u; }
+    public static Dictionary<string, Func<float, float>> timeCurves = new()
+    {
+        { "Linear", x => x },
+        { "SmoothStep", x => Mathf.SmoothStep(0.0f, 1.0f, x) },
+        { "EaseInCubic", x => x * x * x },
+        { "EaseOutCubic", x => { float u = (1 - x); return 1 - u * u * u; } }
+    };
 }
 
 public class MoveProteinToCommand : TimedCommand
@@ -66,7 +60,7 @@ public class MoveProteinToCommand : TimedCommand
             float t = time / commandLength;
 
             // if animation curve is null, default to smooth step
-            t = timeCurve(t);
+            t = TimeCurve(t);
 
             protein.Rotation = Mathf.LerpAngle(currentRotation, targetRotation, t);
             protein.Position = Vector2.Lerp(currentPosition, targetPosition, t);

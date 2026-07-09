@@ -11,6 +11,13 @@ public class PointsOfInterest : MonoBehaviour
 
     public static bool TryGet(string key, out RectTransform transform)
     {
+        if (key == null)
+        {
+            Debug.LogError($"Attempted to use a key of 'null' as a point of interest!");
+            transform = null;
+            return false;
+        }
+
         if (!dict.TryGetValue(key, out transform))
         {
             Debug.LogError($"Key of '{key}' can not be found as a point of interest!");
