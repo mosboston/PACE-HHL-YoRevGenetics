@@ -39,7 +39,7 @@ public class Protein : MonoBehaviour
     [SerializeField] ProteinPiece proteinPiecePrefab;
     [SerializeField] Transform proteinPieceParent;
 
-    RectTransform extraTransform;
+    public RectTransform extraTransform;
 
     Dictionary<string, object> commandArgs;
 

@@ -1,10 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
+
+using Random = UnityEngine.Random;
 
 public abstract class AnimationCommand
 {
+    public virtual void Init() { }
+
     public abstract IEnumerator RunCommand(Dictionary<string, object> args);
 
     public const string kProtein = "Protein";
@@ -12,8 +17,10 @@ public abstract class AnimationCommand
 
     public static Type[] kCommandTypes =
     {
-        typeof(MoveProteinToCommand),
+        typeof(MoveProteinToTargetCommand),
+        typeof(MoveProteinToRandomTransformCommand),
         typeof(OrientToAngleCommand),
+        typeof(BreakWhenInRangeCommand),
         typeof(FullResetCommand),
     };
 }
@@ -46,16 +53,15 @@ public abstract class TimedCommand : AnimationCommand
     };
 }
 
-public class MoveProteinToCommand : TimedCommand
+public abstract class MoveProteinToRectTransformCommand : TimedCommand
 {
-    public string target;
+    protected RectTransform transform;
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
         base.RunCommand(args);
 
         Protein protein = args[kProtein] as Protein;
-        if (!PointsOfInterest.TryGet(target, out RectTransform transform)) yield break;
         float angle = (float)args[kAngle];
 
         Vector2 currentPosition = protein.Position;
@@ -79,6 +85,47 @@ public class MoveProteinToCommand : TimedCommand
             time += Time.deltaTime;
             yield return null;
         }
+    }
+}
+
+public class MoveProteinToTargetCommand : MoveProteinToRectTransformCommand
+{
+    public string target;
+
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        if (!PointsOfInterest.TryGet(target, out transform)) yield break;
+
+        yield return base.RunCommand(args);
+    }
+}
+
+public class MoveProteinToRandomTransformCommand : MoveProteinToRectTransformCommand
+{
+    public string target;
+    public float directionRange = 45;
+    public float forwardRange = 360;
+    public float minDistance = 100;
+    public float maxDistance = 200;
+
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        Protein protein = args[kProtein] as Protein;
+        if (!PointsOfInterest.TryGet(target, out RectTransform targetTransform)) yield break;
+
+        float directionAngle = targetTransform.localEulerAngles.z;
+        float forwardAngle = protein.Rotation;
+
+        float distance = Random.Range(minDistance, maxDistance);
+        float direction = Random.Range(directionAngle - directionRange, directionAngle + directionRange);
+        float forward = Random.Range(forwardAngle - forwardRange, forwardAngle + forwardRange);
+
+        protein.extraTransform.position = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * distance;
+        protein.extraTransform.localEulerAngles = new Vector3(0, 0, forward);
+
+        transform = protein.extraTransform;
+
+        yield return base.RunCommand(args);
     }
 }
 
@@ -134,6 +181,29 @@ public class OrientToAngleCommand : TimedCommand
 // ---===============---
 // --- Util Commands ---
 // ---===============---
+
+public class BreakWhenInRangeCommand : AnimationCommand
+{
+    public string targetPoint;
+    public float range = 100;
+    [XmlElement(Type = typeof(MoveProteinToTargetCommand))]
+    [XmlElement(Type = typeof(MoveProteinToRandomTransformCommand))]
+    [XmlElement(Type = typeof(OrientToAngleCommand))]
+    [XmlElement(Type = typeof(FullResetCommand))]
+    public AnimationCommand commandToRun;
+
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        Protein protein = args[kProtein] as Protein;
+        if (!PointsOfInterest.TryGet(targetPoint, out RectTransform transform)) yield break;
+        IEnumerator command = commandToRun.RunCommand(args);
+
+        while (Vector2.Distance(protein.Position, transform.position) > range && command.MoveNext())
+        {
+            yield return command.Current;
+        }
+    }
+}
 
 public class FullResetCommand : AnimationCommand
 {

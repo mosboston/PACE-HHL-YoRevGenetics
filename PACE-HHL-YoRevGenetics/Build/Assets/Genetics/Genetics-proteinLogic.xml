@@ -24,6 +24,12 @@
         <blockType>IF</blockType>
         <pieceName>bubble</pieceName>
         <action>bounce</action>
+        <color>
+            <r>0.5</r>
+            <g>0.5</g>
+            <b>1</b>
+            <a>1</a>
+        </color>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>3</markerID>

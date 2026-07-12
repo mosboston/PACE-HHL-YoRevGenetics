@@ -48,14 +48,14 @@ public class ProteinAnimationsLoader : StartupLoader
             XmlAttributes attrs = new();
             Type type = typeof(List<ProteinAnimation>);
 
-            XmlElementAttribute attr = new()
-            {
-                ElementName = "MoveProteinToCommand",
-                Type = typeof(MoveProteinToCommand)
-            };
+            //XmlElementAttribute attr = new()
+            //{
+            //    ElementName = "MoveProteinToCommand",
+            //    Type = typeof(MoveProteinToCommand)
+            //};
 
-            attrs.XmlElements.Add(attr);
-            attrOverrides.Add(type, "animationCommands", attrs);
+            //attrs.XmlElements.Add(attr);
+            //attrOverrides.Add(type, "animationCommands", attrs);
 
             XmlSerializer serializer;
             FileStream stream;
@@ -76,6 +76,7 @@ public class ProteinAnimationsLoader : StartupLoader
                 result = false;
             }
 
+            animations.ForEach(a => a.Init());
             Application.settings.proteinAnimations = animations.ToDictionary(a => a.name.ToLower());
         }
         catch (Exception exception)

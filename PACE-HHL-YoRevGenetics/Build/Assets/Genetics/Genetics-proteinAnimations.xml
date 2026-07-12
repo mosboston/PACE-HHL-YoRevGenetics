@@ -2,20 +2,20 @@
 <ProteinAnimations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ProteinAnimation>
         <name>Win</name>
-        <MoveProteinToCommand>
+        <MoveProteinToTargetCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>SmoothStep</timeCurve>
             <target>ProteinWinSpot</target>
-        </MoveProteinToCommand>
+        </MoveProteinToTargetCommand>
     </ProteinAnimation>
     
     <ProteinAnimation>
         <name>Kill</name>
-        <MoveProteinToCommand>
+        <MoveProteinToTargetCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>EaseInCubic</timeCurve>
             <target>ProteinWinSpot</target>
-        </MoveProteinToCommand>
+        </MoveProteinToTargetCommand>
     </ProteinAnimation>
     
     <ProteinAnimation>
@@ -30,11 +30,33 @@
     </ProteinAnimation>
     
     <ProteinAnimation>
+        <name>Bounce</name>
+        <BreakWhenInRangeCommand>
+            <targetPoint>BounceSpot</targetPoint>
+            <range>230</range>
+            <MoveProteinToTargetCommand>
+                <commandLength>0.75</commandLength>
+                <timeCurve>SmoothStep</timeCurve>
+                <target>ProteinWinSpot</target>
+            </MoveProteinToTargetCommand>
+        </BreakWhenInRangeCommand>
+        <MoveProteinToRandomTransformCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>EaseOutCubic</timeCurve>
+            <target>BounceSpot</target>
+            <directionRange>45</directionRange>
+            <forwardRange>360</forwardRange>
+            <minDistance>100</minDistance>
+            <maxDistance>200</maxDistance>
+        </MoveProteinToRandomTransformCommand>
+    </ProteinAnimation>
+    
+    <ProteinAnimation>
         <name>Fail</name>
-        <MoveProteinToCommand>
+        <MoveProteinToTargetCommand>
             <commandLength>0.1</commandLength>
             <timeCurve>EaseInCubic</timeCurve>
             <target>ProteinWinSpot</target>
-        </MoveProteinToCommand>
+        </MoveProteinToTargetCommand>
     </ProteinAnimation>
 </ProteinAnimations>
