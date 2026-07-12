@@ -1976,6 +1976,7 @@ MonoBehaviour:
   randForward: 360
   proteinPiecePrefab: {fileID: 8432375203016955381, guid: ebe50e2c80db83c42b3a7dce26fb4e08, type: 3}
   proteinPieceParent: {fileID: 296908204}
+  extraTransform: {fileID: 0}
 --- !u!114 &1366617273
 MonoBehaviour:
   m_ObjectHideFlags: 0
