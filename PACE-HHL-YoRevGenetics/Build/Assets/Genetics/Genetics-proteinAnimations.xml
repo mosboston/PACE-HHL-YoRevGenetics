@@ -2,8 +2,8 @@
 <ProteinAnimations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ProteinAnimation>
         <name>TEST</name>
-        <animationCommands>
+        <MoveProteinToCommand>
             <target>ProteinWinSpot</target>
-        </animationCommands>
+        </MoveProteinToCommand>
     </ProteinAnimation>
 </ProteinAnimations>

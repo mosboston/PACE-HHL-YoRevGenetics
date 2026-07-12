@@ -7,6 +7,7 @@ using UnityEngine;
 public class ProteinAnimation
 {
     public string name;
+    [XmlElement(Type = typeof(AnimationCommand))]
     [XmlElement(Type = typeof(MoveProteinToCommand))]
     public List<AnimationCommand> animationCommands;
 }
