@@ -9,7 +9,18 @@ public abstract class AnimationCommand
 
     public const string kProtein = "Protein";
     public const string kAngle = "Angle";
+
+    public static Type[] kCommandTypes =
+    {
+        typeof(MoveProteinToCommand),
+        typeof(OrientToAngleCommand),
+        typeof(FullResetCommand),
+    };
 }
+
+// ---================---
+// --- Timed Commands ---
+// ---================---
 
 public abstract class TimedCommand : AnimationCommand
 {
@@ -68,5 +79,68 @@ public class MoveProteinToCommand : TimedCommand
             time += Time.deltaTime;
             yield return null;
         }
+    }
+}
+
+public class OrientToAngleCommand : TimedCommand
+{
+    public float angle;
+    public bool unclamped = false;
+
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        base.RunCommand(args);
+
+        Protein protein = args[kProtein] as Protein;
+        //float angle = (float)args[kAngle];
+
+        float currentAngle = protein.Rotation;
+        float targetAngle = angle;
+
+        // Normalize current angle [0, 360)
+        currentAngle %= 360.0f;
+        if (currentAngle < 0)
+            currentAngle += 360;
+
+        // Normalize target angle [0, 360)
+        // IF needed
+        if (!unclamped)
+        {
+            targetAngle %= 360.0f;
+            if (targetAngle < 0)
+                targetAngle += 360;
+        }
+
+        if (Mathf.Approximately(currentAngle, targetAngle))
+            yield break;
+
+        float time = 0;
+
+        while (time < commandLength)
+        {
+            float t = time / commandLength;
+
+            // if animation curve is null, default to smooth step
+            t = TimeCurve(t);
+
+            protein.Rotation = Mathf.Lerp(currentAngle, targetAngle, t);
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+    }
+}
+
+// ---===============---
+// --- Util Commands ---
+// ---===============---
+
+public class FullResetCommand : AnimationCommand
+{
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        Protein protein = args[kProtein] as Protein;
+        protein.FullReset();
+        yield break;
     }
 }

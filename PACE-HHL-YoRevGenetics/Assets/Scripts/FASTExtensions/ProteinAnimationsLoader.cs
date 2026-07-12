@@ -76,7 +76,7 @@ public class ProteinAnimationsLoader : StartupLoader
                 result = false;
             }
 
-            Application.settings.proteinAnimations = animations.ToDictionary(a => a.name);
+            Application.settings.proteinAnimations = animations.ToDictionary(a => a.name.ToLower());
         }
         catch (Exception exception)
         {

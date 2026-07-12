@@ -113,9 +113,14 @@ public class Protein : MonoBehaviour
             return;
         }
 
+        // Old (hardcoded) animation system
         //StartCoroutine(DoActionCoroutine(action, angle));
 
-        ProteinAnimation animation = Application.settings.proteinAnimations["TEST"];
+        if (!Application.settings.proteinAnimations.TryGetValue(action.ToLower(), out ProteinAnimation animation))
+        {
+            Debug.LogError($"Action '{action}' could not be found in {Application.skin}-proteinAnimations.xml");
+            return;
+        }
         StartCoroutine(DoProteinAnimation(animation, angle));
     }
 

@@ -1,8 +1,39 @@
 <?xml version="1.0"?>
 <ProteinAnimations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ProteinAnimation>
-        <name>TEST</name>
+        <name>Win</name>
         <MoveProteinToCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>SmoothStep</timeCurve>
+            <target>ProteinWinSpot</target>
+        </MoveProteinToCommand>
+    </ProteinAnimation>
+    
+    <ProteinAnimation>
+        <name>Kill</name>
+        <MoveProteinToCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>EaseInCubic</timeCurve>
+            <target>ProteinWinSpot</target>
+        </MoveProteinToCommand>
+    </ProteinAnimation>
+    
+    <ProteinAnimation>
+        <name>Separate</name>
+        <OrientToAngleCommand>
+            <commandLength>2</commandLength>
+            <timeCurve>EaseInCubic</timeCurve>
+            <angle>1440</angle>
+            <unclamped>true</unclamped>
+        </OrientToAngleCommand>
+        <FullResetCommand/>
+    </ProteinAnimation>
+    
+    <ProteinAnimation>
+        <name>Fail</name>
+        <MoveProteinToCommand>
+            <commandLength>0.1</commandLength>
+            <timeCurve>EaseInCubic</timeCurve>
             <target>ProteinWinSpot</target>
         </MoveProteinToCommand>
     </ProteinAnimation>

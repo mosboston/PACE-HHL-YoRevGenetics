@@ -32,6 +32,12 @@
         <action>IF umbrella THEN fail ELSE win</action>
         <angle>206</angle>
 		<markerID>0</markerID>
+        <color>
+            <r>0</r>
+            <g>1</g>
+            <b>1</b>
+            <a>1</a>
+        </color>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>4</markerID>
