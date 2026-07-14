@@ -19,6 +19,7 @@ public abstract class AnimationCommand
     {
         typeof(MoveProteinToTargetCommand),
         typeof(MoveProteinToRandomTransformCommand),
+        typeof(MoveProteinToTargetButBreakInRangeCommand),
         typeof(OrientToAngleCommand),
         typeof(BreakWhenInRangeCommand),
         typeof(FullResetCommand),
@@ -56,6 +57,7 @@ public abstract class TimedCommand : AnimationCommand
 public abstract class MoveProteinToRectTransformCommand : TimedCommand
 {
     protected RectTransform transform;
+    protected Func<bool> predicate = () => true;
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
@@ -72,7 +74,7 @@ public abstract class MoveProteinToRectTransformCommand : TimedCommand
 
         float time = 0;
 
-        while (time < commandLength)
+        while (time < commandLength && predicate())
         {
             float t = time / commandLength;
 
@@ -95,6 +97,24 @@ public class MoveProteinToTargetCommand : MoveProteinToRectTransformCommand
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
         if (!PointsOfInterest.TryGet(target, out transform)) yield break;
+
+        yield return base.RunCommand(args);
+    }
+}
+
+public class MoveProteinToTargetButBreakInRangeCommand : MoveProteinToRectTransformCommand
+{
+    public string target;
+    public string point;
+    public float range = 100;
+
+    public override IEnumerator RunCommand(Dictionary<string, object> args)
+    {
+        if (!PointsOfInterest.TryGet(target, out transform)) yield break;
+        if (!PointsOfInterest.TryGet(point, out RectTransform pointTransform)) yield break;
+        Protein protein = args[kProtein] as Protein;
+
+        predicate = () => Vector2.Distance(protein.Position, pointTransform.position) > range;
 
         yield return base.RunCommand(args);
     }

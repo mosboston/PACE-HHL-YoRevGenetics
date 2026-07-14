@@ -31,15 +31,13 @@
     
     <ProteinAnimation>
         <name>Bounce</name>
-        <BreakWhenInRangeCommand>
-            <targetPoint>BounceSpot</targetPoint>
+        <MoveProteinToTargetButBreakInRangeCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>SmoothStep</timeCurve>
+            <target>ProteinWinSpot</target>
+            <point>BounceSpot</point>
             <range>230</range>
-            <MoveProteinToTargetCommand>
-                <commandLength>0.75</commandLength>
-                <timeCurve>SmoothStep</timeCurve>
-                <target>ProteinWinSpot</target>
-            </MoveProteinToTargetCommand>
-        </BreakWhenInRangeCommand>
+        </MoveProteinToTargetButBreakInRangeCommand>
         <MoveProteinToRandomTransformCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>EaseOutCubic</timeCurve>
