@@ -22,7 +22,7 @@ public abstract class AnimationCommand
         typeof(MoveProteinToTargetButBreakInRangeCommand),
         typeof(OrientToAngleCommand),
         typeof(BreakWhenInRangeCommand),
-        typeof(FullResetCommand),
+        typeof(ResetCommand),
     };
 }
 
@@ -209,7 +209,7 @@ public class BreakWhenInRangeCommand : AnimationCommand
     [XmlElement(Type = typeof(MoveProteinToTargetCommand))]
     [XmlElement(Type = typeof(MoveProteinToRandomTransformCommand))]
     [XmlElement(Type = typeof(OrientToAngleCommand))]
-    [XmlElement(Type = typeof(FullResetCommand))]
+    [XmlElement(Type = typeof(ResetCommand))]
     public AnimationCommand commandToRun;
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
@@ -225,12 +225,12 @@ public class BreakWhenInRangeCommand : AnimationCommand
     }
 }
 
-public class FullResetCommand : AnimationCommand
+public class ResetCommand : AnimationCommand
 {
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
         Protein protein = args[kProtein] as Protein;
-        protein.FullReset();
+        protein.ResetPieces();
         yield break;
     }
 }

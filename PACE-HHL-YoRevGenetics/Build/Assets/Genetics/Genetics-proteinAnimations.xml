@@ -26,7 +26,7 @@
             <angle>1440</angle>
             <unclamped>true</unclamped>
         </OrientToAngleCommand>
-        <FullResetCommand/>
+        <ResetCommand/>
     </ProteinAnimation>
     
     <ProteinAnimation>

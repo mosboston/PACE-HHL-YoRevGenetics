@@ -12,7 +12,7 @@ public class ProteinAnimation
     [XmlElement(Type = typeof(MoveProteinToTargetButBreakInRangeCommand))]
     [XmlElement(Type = typeof(OrientToAngleCommand))]
     [XmlElement(Type = typeof(BreakWhenInRangeCommand))]
-    [XmlElement(Type = typeof(FullResetCommand))]
+    [XmlElement(Type = typeof(ResetCommand))]
     public List<AnimationCommand> animationCommands;
 
     public void Init()
