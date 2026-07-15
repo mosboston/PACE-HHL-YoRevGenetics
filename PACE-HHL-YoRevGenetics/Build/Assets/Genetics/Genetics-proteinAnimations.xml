@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
 <ProteinAnimations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <ProteinAnimation>
-        <name>Win</name>
+        <name>win</name>
+        <resultText>Success!</resultText>
         <MoveProteinToTargetCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>SmoothStep</timeCurve>
@@ -10,7 +11,8 @@
     </ProteinAnimation>
     
     <ProteinAnimation>
-        <name>Kill</name>
+        <name>kill</name>
+        <resultText>Cell Death</resultText>
         <MoveProteinToTargetCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>EaseInCubic</timeCurve>
@@ -19,7 +21,7 @@
     </ProteinAnimation>
     
     <ProteinAnimation>
-        <name>Separate</name>
+        <name>separate</name>
         <OrientToAngleCommand>
             <commandLength>2</commandLength>
             <timeCurve>EaseInCubic</timeCurve>
@@ -30,7 +32,8 @@
     </ProteinAnimation>
     
     <ProteinAnimation>
-        <name>Bounce</name>
+        <name>bounce</name>
+        <resultText>Try Again...</resultText>
         <MoveProteinToTargetButBreakInRangeCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>SmoothStep</timeCurve>
@@ -50,7 +53,8 @@
     </ProteinAnimation>
     
     <ProteinAnimation>
-        <name>Fail</name>
+        <name>fail</name>
+        <resultText>Try Again...</resultText>
         <MoveProteinToTargetButBreakInRangeCommand>
             <commandLength>0.75</commandLength>
             <timeCurve>SmoothStep</timeCurve>

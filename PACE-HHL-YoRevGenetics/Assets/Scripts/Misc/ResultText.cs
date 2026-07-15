@@ -16,11 +16,13 @@ public class ResultText : MonoBehaviour
 
     [SerializeField] TMP_Text resultText;
 
-    public void SetResultText(string result)
+    public void SetResultText(string name, string result)
     {
-        result ??= string.Empty;
+        result ??= name ?? "";
         resultText.text = TextInfo.ToTitleCase(result);
     }
+
+    public void SetResultText(string result) => SetResultText(null, result);
 
     public void ResetResultText() => SetResultText("");
 }

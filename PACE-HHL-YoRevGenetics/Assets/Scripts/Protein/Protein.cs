@@ -19,7 +19,7 @@ public class Protein : MonoBehaviour
     State currentState = State.Idle;
 
     [Header("Events")]
-    public UnityEvent<string> onProteinActionStarted;
+    public UnityEvent<string, string> onProteinActionStarted;
     public UnityEvent onProteinActionDone;
     public UnityEvent onFullReset;
 
@@ -144,7 +144,7 @@ public class Protein : MonoBehaviour
     private IEnumerator DoProteinAnimation(ProteinAnimation animation, float? angle)
     {
         currentState = State.MidAction;
-        onProteinActionStarted?.Invoke(animation.name);
+        onProteinActionStarted?.Invoke(animation.name, animation.resultText);
 
         commandArgs[AnimationCommand.kAngle] = angle ?? 0;
 

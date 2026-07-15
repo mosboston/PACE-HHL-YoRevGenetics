@@ -1992,13 +1992,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  animationLength: 1
-  animationWaitTime: 0.25
-  animationEndTime: 1
-  bubbleSize: 230
-  randDistance: {x: 100, y: 200}
-  randDirection: 45
-  randForward: 360
   proteinPiecePrefab: {fileID: 8432375203016955381, guid: ebe50e2c80db83c42b3a7dce26fb4e08, type: 3}
   proteinPieceParent: {fileID: 296908204}
   extraTransform: {fileID: 0}

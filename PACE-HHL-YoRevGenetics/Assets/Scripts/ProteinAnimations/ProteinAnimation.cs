@@ -8,6 +8,7 @@ using UnityEngine;
 public class ProteinAnimation
 {
     public string name;
+    public string resultText = null;
     [XmlElement(Type = typeof(MoveProteinToTargetCommand))]
     [XmlElement(Type = typeof(MoveProteinToRandomTransformCommand))]
     [XmlElement(Type = typeof(MoveProteinToTargetButBreakInRangeCommand))]
