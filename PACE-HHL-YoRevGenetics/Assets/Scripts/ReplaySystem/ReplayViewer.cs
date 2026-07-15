@@ -5,6 +5,7 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class ReplayViewer : MonoBehaviour
 {
+    [SerializeField] private bool isPaused;
     [SerializeField] ReplayCamera replayCamera;
     [SerializeField] RawImage image;
 
@@ -46,6 +47,8 @@ public class ReplayViewer : MonoBehaviour
         isPlaying = true;
     }
 
+    public void SetPause(bool isPaused) => this.isPaused = isPaused;
+
     public void Stop()
     {
         isPlaying = false;
@@ -82,7 +85,8 @@ public class ReplayViewer : MonoBehaviour
 
         image.texture = replayData.frames[currentFrame];
 
-        currentTime += Time.deltaTime;
+        if (!isPaused)
+            currentTime += Time.deltaTime;
     }
 
     private void LateUpdate()

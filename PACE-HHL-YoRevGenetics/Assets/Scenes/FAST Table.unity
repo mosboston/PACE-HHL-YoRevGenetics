@@ -1007,6 +1007,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d47c477cf957de49bc2391b7963d651, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReplayViewer
+  isPaused: 1
   replayCamera: {fileID: 1870677242}
   image: {fileID: 2072982280}
 --- !u!114 &629931994
@@ -1937,18 +1938,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1950872724}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
   onProteinActionDone:
     m_PersistentCalls:
       m_Calls:
@@ -1963,6 +1952,18 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1950872724}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
         m_CallState: 2
   onFullReset:
     m_PersistentCalls:
