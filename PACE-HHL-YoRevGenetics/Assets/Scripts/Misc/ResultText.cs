@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class ResultText : MonoBehaviour
 {
-    TextInfo textInfo;
+    TextInfo TextInfo
+    {
+        get
+        {
+            _textInfo ??= new CultureInfo("en-US", false).TextInfo;
+            return _textInfo;
+        }
+    }
+    TextInfo _textInfo;
 
     [SerializeField] TMP_Text resultText;
-
-    private void Awake()
-    {
-        textInfo = new CultureInfo("en-US", false).TextInfo;
-    }
 
     public void SetResultText(string result)
     {
         result ??= string.Empty;
-        resultText.text = textInfo.ToTitleCase(result);
+        resultText.text = TextInfo.ToTitleCase(result);
     }
 
     public void ResetResultText() => SetResultText("");
