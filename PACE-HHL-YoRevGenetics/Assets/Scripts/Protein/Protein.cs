@@ -1,5 +1,3 @@
-using FAST;
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,8 +28,8 @@ public class Protein : MonoBehaviour
     // Animations
     public RectTransform extraTransform;
     Dictionary<string, object> commandArgs;
-    ProteinAnimation startAnimation;
-    ProteinAnimation endAnimation;
+    ProteinAnimation preAnimation;
+    ProteinAnimation postAnimation;
 
     // Protein pieces
     List<ProteinPiece> _proteinPieces = new();
@@ -93,34 +91,43 @@ public class Protein : MonoBehaviour
             { AnimationCommand.kAngle, 0.0f },
         };
 
-        startAnimation = new()
+        if (!Application.settings.proteinAnimations.TryGetValue("preaction", out preAnimation))
         {
-            name = "Start",
-            animationCommands = new()
+            // Default animation if no 'start' is found in .xml
+            preAnimation = new()
             {
-                new OrientToAngleCommand()
+                name = "PreAction",
+                animationCommands = new()
                 {
-                    commandLength = 1.0f,
-                    useArgAngle = true,
+                    new OrientToAngleCommand()
+                    {
+                        commandLength = 1.0f,
+                        useArgAngle = true,
+                    },
+                    new WaitCommand()
+                    {
+                        waitLength = 0.25f
+                    }
                 },
-                new WaitCommand()
-                {
-                    waitLength = 0.25f
-                }
-            },
-        };
+            };
+        }
 
-        endAnimation = new()
+
+        if (!Application.settings.proteinAnimations.TryGetValue("postaction", out postAnimation))
         {
-            name = "End",
-            animationCommands = new()
+            // Default animation if no 'end' is found in .xml
+            postAnimation = new()
+            {
+                name = "PostAction",
+                animationCommands = new()
             {
                 new WaitCommand()
                 {
                     waitLength = 0.75f
                 }
             },
-        };
+            };
+        }
     }
 
     private void DoAction()
@@ -150,12 +157,12 @@ public class Protein : MonoBehaviour
 
         if (angle.HasValue)
         {
-            yield return startAnimation.PlayAnimation(commandArgs);
+            yield return preAnimation.PlayAnimation(commandArgs);
         }
 
         yield return animation.PlayAnimation(commandArgs);
 
-        yield return endAnimation.PlayAnimation(commandArgs);
+        yield return postAnimation.PlayAnimation(commandArgs);
 
         currentState = State.PostAction;
         onProteinActionDone?.Invoke();
