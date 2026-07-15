@@ -14,6 +14,7 @@ public abstract class AnimationCommand
     public const string kProtein = "Protein";
     public const string kAngle = "Angle";
 
+    // Command types MUST be in this list for the XML serializer to recognize them!
     public static Type[] kCommandTypes =
     {
         typeof(MoveProteinToTargetCommand),

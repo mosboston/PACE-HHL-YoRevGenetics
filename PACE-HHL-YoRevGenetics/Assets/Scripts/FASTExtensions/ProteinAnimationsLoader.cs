@@ -44,27 +44,17 @@ public class ProteinAnimationsLoader : StartupLoader
 
         try
         {
+
+            // Make sure the serializer knows about all the animation command types
             XmlAttributeOverrides attrOverrides = new();
             XmlAttributes attrs = new();
-            Type type = typeof(List<ProteinAnimation>);
+            foreach (Type elementType in AnimationCommand.kCommandTypes)
+                attrs.XmlElements.Add(new() { Type = elementType });
+            attrOverrides.Add(typeof(ProteinAnimation), "animationCommands", attrs);
 
-            //XmlElementAttribute attr = new()
-            //{
-            //    ElementName = "MoveProteinToCommand",
-            //    Type = typeof(MoveProteinToCommand)
-            //};
+            XmlSerializer serializer = new(typeof(List<ProteinAnimation>), attrOverrides, null, new XmlRootAttribute("ProteinAnimations"), null);
+            FileStream stream = new (proteinAnimationsPath, FileMode.Open);
 
-            //attrs.XmlElements.Add(attr);
-            //attrOverrides.Add(type, "animationCommands", attrs);
-
-            XmlSerializer serializer;
-            FileStream stream;
-
-            //serializer = new XmlSerializer(type, attrOverrides, null, new XmlRootAttribute("ProteinAnimations"), null);
-            //serializer = new XmlSerializer(type, attrOverrides);
-            serializer = new XmlSerializer(type, new XmlRootAttribute("ProteinAnimations"));
-
-            stream = new FileStream(proteinAnimationsPath, FileMode.Open);
             animations = serializer.Deserialize(stream) as List<ProteinAnimation>;
             stream.Close();
 

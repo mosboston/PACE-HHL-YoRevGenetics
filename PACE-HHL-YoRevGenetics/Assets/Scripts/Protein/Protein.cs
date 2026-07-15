@@ -77,7 +77,7 @@ public class Protein : MonoBehaviour
                 break;
 
             case State.PostAction:
-                FullReset();
+                BackToHome();
                 break;
         }
     }
