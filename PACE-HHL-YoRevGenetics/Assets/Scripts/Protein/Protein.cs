@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 using Application = FAST.Application;
-using Random = UnityEngine.Random;
 
 public class Protein : MonoBehaviour
 {
@@ -24,25 +23,17 @@ public class Protein : MonoBehaviour
     public UnityEvent onProteinActionDone;
     public UnityEvent onFullReset;
 
-    [Header("General Animations")]
-    [SerializeField] float animationLength = 1;
-    [SerializeField] float animationWaitTime = 0.25f;
-    [SerializeField] float animationEndTime = 3.0f;
-
-    [Header("Bounce Animation")]
-    [SerializeField] float bubbleSize = 100;
-    [SerializeField] Vector2 randDistance = new(100, 200);
-    [SerializeField] float randDirection = 45;
-    [SerializeField] float randForward = 360;
-
     [Header("References")]
     [SerializeField] ProteinPiece proteinPiecePrefab;
     [SerializeField] Transform proteinPieceParent;
 
+    // Animations
     public RectTransform extraTransform;
-
     Dictionary<string, object> commandArgs;
+    ProteinAnimation startAnimation;
+    ProteinAnimation endAnimation;
 
+    // Protein pieces
     List<ProteinPiece> _proteinPieces = new();
     public List<ProteinPiece> ProteinPieces { get => _proteinPieces; private set => _proteinPieces = value; }
     public bool ProteinContainsPiece(string pieceName)
@@ -70,7 +61,7 @@ public class Protein : MonoBehaviour
         var temp = new GameObject("extraTransform");
         extraTransform = temp.AddComponent<RectTransform>();
 
-        PopulateArgDictionary();
+        AnimationInit();
     }
 
     public void OnInteractButton()
@@ -94,12 +85,41 @@ public class Protein : MonoBehaviour
     // ---==========---
     //  Action related
     // ---==========---
-    private void PopulateArgDictionary()
+    private void AnimationInit()
     {
         commandArgs = new()
         {
             { AnimationCommand.kProtein, this },
             { AnimationCommand.kAngle, 0.0f },
+        };
+
+        startAnimation = new()
+        {
+            name = "Start",
+            animationCommands = new()
+            {
+                new OrientToAngleCommand()
+                {
+                    commandLength = 1.0f,
+                    useArgAngle = true,
+                },
+                new WaitCommand()
+                {
+                    waitLength = 0.25f
+                }
+            },
+        };
+
+        endAnimation = new()
+        {
+            name = "End",
+            animationCommands = new()
+            {
+                new WaitCommand()
+                {
+                    waitLength = 0.75f
+                }
+            },
         };
     }
 
@@ -112,9 +132,6 @@ public class Protein : MonoBehaviour
             Debug.LogError("No action given to perform!");
             return;
         }
-
-        // Old (hardcoded) animation system
-        //StartCoroutine(DoActionCoroutine(action, angle));
 
         if (!Application.settings.proteinAnimations.TryGetValue(action.ToLower(), out ProteinAnimation animation))
         {
@@ -129,196 +146,19 @@ public class Protein : MonoBehaviour
         currentState = State.MidAction;
         onProteinActionStarted?.Invoke(animation.name);
 
-        if (angle.HasValue)
-        {
-            yield return OrientToAngle(angle.Value, animationLength);
-            yield return new WaitForSeconds(animationWaitTime);
-        }
-
         commandArgs[AnimationCommand.kAngle] = angle ?? 0;
 
-        // Run each command sequentially
-        foreach (AnimationCommand command in animation.animationCommands)
-        {
-            yield return command.RunCommand(commandArgs);
-        }
-
-        yield return new WaitForSeconds(animationEndTime);
-
-        currentState = State.PostAction;
-        onProteinActionDone?.Invoke();
-    }
-
-    private IEnumerator DoActionCoroutine(string action, float? angle)
-    {
-        currentState = State.MidAction;
-        onProteinActionStarted?.Invoke(action);
-
         if (angle.HasValue)
         {
-            yield return OrientToAngle(angle.Value, animationLength);
-            yield return new WaitForSeconds(animationWaitTime);
+            yield return startAnimation.PlayAnimation(commandArgs);
         }
 
-        float realAngle = angle ?? 0;
+        yield return animation.PlayAnimation(commandArgs);
 
-        if (!Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kProteinWinSpot, out RectTransform target))
-        {
-            Debug.LogError($"'{PointsOfInterest.kProteinWinSpot}' is not set but it is expected!");
-            yield break;
-        }
-
-        switch (action)
-        {
-            case "win":
-                yield return MoveToRectTransformWithAngle(target, realAngle, animationLength);
-                break;
-
-            case "kill":
-                yield return MoveToRectTransformWithAngle(target, realAngle, animationLength, EaseInCubic);
-                break;
-
-            case "fail":
-            case "bounce":
-                if (Application.settings.pointsOfInterest.TryGetValue(PointsOfInterest.kBounceSpot, out RectTransform bounceSpot))
-                {
-                    yield return BreakWhenInRange(bounceSpot.position, bubbleSize,
-                        MoveToRectTransformWithAngle(target, realAngle, animationLength));
-                    RectTransform bouncedTransform = RandomRectTransform(bounceSpot.localEulerAngles.z, randDirection, Rotation, randForward, randDistance.x, randDistance.y);
-                    yield return MoveToRectTransform(bouncedTransform, animationLength, EaseOutCubic);
-                }
-                break;
-
-            case "separate":
-                yield return OrientToAngleUnclamped(360*4, animationLength, EaseInCubic);
-                FullReset();
-                yield break;
-
-            default:
-                Debug.LogError($"Action '{action}' not implemented! (this is case-sensitive)");
-                break;
-        }
-
-        yield return new WaitForSeconds(animationEndTime);
+        yield return endAnimation.PlayAnimation(commandArgs);
 
         currentState = State.PostAction;
         onProteinActionDone?.Invoke();
-    }
-
-    private IEnumerator MoveToRectTransform(RectTransform transform, float animationLength, Func<float, float> animationCurve = null) =>
-        MoveToRectTransformWithAngle(transform, Rotation, animationLength, animationCurve);
-
-    private IEnumerator MoveToRectTransformWithAngle(RectTransform transform, float angle, float animationLength, Func<float, float> animationCurve = null)
-    {
-        if (animationLength <= 0)
-        {
-            Debug.LogError("animationLength must be > 0!");
-            yield break;
-        }
-
-        Vector2 currentPosition = Position;
-        float currentRotation = Rotation;
-
-        Vector2 targetPosition = transform.position;
-        float targetRotation = transform.localEulerAngles.z + angle;
-
-        float time = 0;
-
-        while (time < animationLength)
-        {
-            float t = time / animationLength;
-
-            // if animation curve is null, default to smooth step
-            animationCurve ??= SmoothStep;
-            t = animationCurve(t);
-
-            Rotation = Mathf.LerpAngle(currentRotation, targetRotation, t);
-            Position = Vector2.Lerp(currentPosition, targetPosition, t);
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator OrientToAngleUnclamped(float angle, float animationLength, Func<float, float> animationCurve = null)
-    {
-        float currentAngle = Rotation;
-        float targetAngle = angle;
-
-        currentAngle %= 360.0f;
-        if (currentAngle < 0)
-            currentAngle += 360;
-
-        if (Mathf.Approximately(currentAngle, targetAngle))
-            yield break;
-
-        float time = 0;
-
-        while (time < animationLength)
-        {
-            float t = time / animationLength;
-
-            // if animation curve is null, default to smooth step
-            animationCurve ??= SmoothStep;
-            t = animationCurve(t);
-
-            Rotation = Mathf.Lerp(currentAngle, targetAngle, t);
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator OrientToAngle(float angle, float animationLength, Func<float, float> animationCurve = null)
-    {
-        float currentAngle = Rotation;
-        float targetAngle = angle;
-
-        currentAngle %= 360.0f;
-        if (currentAngle < 0)
-            currentAngle += 360;
-
-        targetAngle %= 360.0f;
-        if (targetAngle < 0)
-            targetAngle += 360;
-
-        if (Mathf.Approximately(currentAngle, targetAngle))
-            yield break;
-
-        float time = 0;
-
-        while (time < animationLength)
-        {
-            float t = time / animationLength;
-
-            // if animation curve is null, default to smooth step
-            animationCurve ??= SmoothStep;
-            t = animationCurve(t);
-
-            Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
-
-            time += Time.deltaTime;
-            yield return null;
-        }
-    }
-
-    private IEnumerator BreakWhenInRange(Vector2 point, float range, IEnumerator action)
-    {
-        while (Vector2.Distance(Position, point) > range && action.MoveNext())
-        {
-            yield return action.Current;
-        }
-    }
-
-    private RectTransform RandomRectTransform(float directionAngle, float directionRange, float forwardAngle, float forwardRange, float minDistance, float maxDistance)
-    {
-        float distance = Random.Range(minDistance, maxDistance);
-        float direction = Random.Range(directionAngle - directionRange, directionAngle + directionRange);
-        float forward = Random.Range(forwardAngle - forwardRange, forwardAngle + forwardRange);
-
-        extraTransform.position = new Vector2(Mathf.Cos(direction), Mathf.Sin(direction)) * distance;
-        extraTransform.localEulerAngles = new Vector3(0, 0, forward);
-        return extraTransform;
     }
 
     public (string action, float? angle) ResolveAction()
@@ -432,28 +272,5 @@ public class Protein : MonoBehaviour
             Rotation = homeRotation.Value;
 
         currentState = State.Idle;
-    }
-
-    // ---==========---
-    //  Util Shorthand
-    // ---==========---
-
-    // All of these expect domain and range of [0, 1]
-
-    private float SmoothStep(float x) => Mathf.SmoothStep(0.0f, 1.0f, x);
-
-    private float Linear(float x) => x;
-
-    private float EaseInCubic(float x) => x * x * x;
-
-    private float EaseOutCubic(float x) { float u = (1 - x); return 1 - u * u * u; }
-
-    // ---===---
-    //  Gizmos!
-    // ---===---
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(Position, bubbleSize);
     }
 }

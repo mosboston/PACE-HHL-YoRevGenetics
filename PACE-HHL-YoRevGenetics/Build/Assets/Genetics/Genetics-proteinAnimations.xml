@@ -51,10 +51,21 @@
     
     <ProteinAnimation>
         <name>Fail</name>
-        <MoveProteinToTargetCommand>
-            <commandLength>0.1</commandLength>
-            <timeCurve>EaseInCubic</timeCurve>
+        <MoveProteinToTargetButBreakInRangeCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>SmoothStep</timeCurve>
             <target>ProteinWinSpot</target>
-        </MoveProteinToTargetCommand>
+            <point>BounceSpot</point>
+            <range>230</range>
+        </MoveProteinToTargetButBreakInRangeCommand>
+        <MoveProteinToRandomTransformCommand>
+            <commandLength>0.75</commandLength>
+            <timeCurve>EaseOutCubic</timeCurve>
+            <target>BounceSpot</target>
+            <directionRange>45</directionRange>
+            <forwardRange>360</forwardRange>
+            <minDistance>100</minDistance>
+            <maxDistance>200</maxDistance>
+        </MoveProteinToRandomTransformCommand>
     </ProteinAnimation>
 </ProteinAnimations>

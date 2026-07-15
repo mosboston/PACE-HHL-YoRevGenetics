@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 using Random = UnityEngine.Random;
@@ -21,7 +20,7 @@ public abstract class AnimationCommand
         typeof(MoveProteinToRandomTransformCommand),
         typeof(MoveProteinToTargetButBreakInRangeCommand),
         typeof(OrientToAngleCommand),
-        typeof(BreakWhenInRangeCommand),
+        typeof(WaitCommand),
         typeof(ResetCommand),
     };
 }
@@ -153,13 +152,15 @@ public class OrientToAngleCommand : TimedCommand
 {
     public float angle;
     public bool unclamped = false;
+    public bool useArgAngle = false;
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
         base.RunCommand(args);
 
         Protein protein = args[kProtein] as Protein;
-        //float angle = (float)args[kAngle];
+        if (useArgAngle)
+            angle = (float)args[kAngle];
 
         float currentAngle = protein.Rotation;
         float targetAngle = angle;
@@ -202,26 +203,13 @@ public class OrientToAngleCommand : TimedCommand
 // --- Util Commands ---
 // ---===============---
 
-public class BreakWhenInRangeCommand : AnimationCommand
+public class WaitCommand : AnimationCommand
 {
-    public string targetPoint;
-    public float range = 100;
-    [XmlElement(Type = typeof(MoveProteinToTargetCommand))]
-    [XmlElement(Type = typeof(MoveProteinToRandomTransformCommand))]
-    [XmlElement(Type = typeof(OrientToAngleCommand))]
-    [XmlElement(Type = typeof(ResetCommand))]
-    public AnimationCommand commandToRun;
+    public float waitLength = 1;
 
     public override IEnumerator RunCommand(Dictionary<string, object> args)
     {
-        Protein protein = args[kProtein] as Protein;
-        if (!PointsOfInterest.TryGet(targetPoint, out RectTransform transform)) yield break;
-        IEnumerator command = commandToRun.RunCommand(args);
-
-        while (Vector2.Distance(protein.Position, transform.position) > range && command.MoveNext())
-        {
-            yield return command.Current;
-        }
+        yield return new WaitForSeconds(waitLength);
     }
 }
 
