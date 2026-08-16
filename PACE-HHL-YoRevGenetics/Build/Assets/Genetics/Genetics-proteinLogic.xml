@@ -3,7 +3,7 @@
     <ProteinLogicBlock>
 		<markerID>0</markerID>
         <blockType>IF</blockType>
-        <pieceName>misfold</pieceName>
+        <pieceName>GG_Denature</pieceName>
         <action>separate</action>
         <color>
             <r>1</r>
@@ -15,14 +15,14 @@
     <ProteinLogicBlock>
 		<markerID>1</markerID>
         <blockType>IF</blockType>
-        <pieceName>sword</pieceName>
+        <pieceName>GG_Sword</pieceName>
         <action>kill</action>
         <angle>302</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>2</markerID>
         <blockType>IF</blockType>
-        <pieceName>bubble</pieceName>
+        <pieceName>GG_Bubble</pieceName>
         <action>bounce</action>
         <color>
             <r>0.5</r>
@@ -34,7 +34,7 @@
     <ProteinLogicBlock>
 		<markerID>3</markerID>
         <blockType>NESTED</blockType>
-        <pieceName>key</pieceName>
+        <pieceName>GG_Key</pieceName>
         <action>IF umbrella THEN fail ELSE win</action>
         <angle>206</angle>
 		<markerID>0</markerID>
@@ -48,53 +48,54 @@
     <ProteinLogicBlock>
 		<markerID>4</markerID>
         <blockType>IF</blockType>
-        <pieceName>key_extra</pieceName>
+        <pieceName>GG_Trikey</pieceName>
         <action>win</action>
         <angle>0</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
+		<markerID>7</markerID>
+        <blockType>IF</blockType>
+        <pieceName>GG_Umbrella</pieceName>
+	<action>fail</action>
+        <angle>180</angle>
+    </ProteinLogicBlock>
+    <ProteinLogicBlock>
 		<markerID>5</markerID>
         <blockType>NESTED</blockType>
-        <pieceName>square</pieceName>
+        <pieceName>GG_Halfkey_Square</pieceName>
         <action>IF circle THEN win ELSE fail</action>
         <angle>153</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>6</markerID>
         <blockType>IF</blockType>
-        <pieceName>circle</pieceName>
-        <action>win</action>
+        <pieceName>GG_Halfkey_Circle</pieceName>
+        <action>fail</action>
         <angle>153</angle>
     </ProteinLogicBlock>
     
     <ProteinLogicBlock>
-		<markerID>7</markerID>
-        <blockType>ELSE</blockType>
-        <pieceName>umbrella</pieceName>
-        <angle>180</angle>
-    </ProteinLogicBlock>
-    <ProteinLogicBlock>
 		<markerID>8</markerID>
         <blockType>ELSE</blockType>
-        <pieceName>legs</pieceName>
+        <pieceName>GG_Legs</pieceName>
         <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>9</markerID>
         <blockType>ELSE</blockType>
-        <pieceName>tail</pieceName>
+        <pieceName>GG_Tail</pieceName>
         <angle>45</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>10</markerID>
         <blockType>ELSE</blockType>
-        <pieceName>wrong_shapes</pieceName>
+        <pieceName>GG_Wrongshape</pieceName>
         <angle>90</angle>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>11</markerID>
         <blockType>ELSE</blockType>
-        <pieceName>backwards</pieceName>
+        <pieceName>GG_Key_Flipped</pieceName>
         <angle>244</angle>
     </ProteinLogicBlock>
 </ProteinLogic>
