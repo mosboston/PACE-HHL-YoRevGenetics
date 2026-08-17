@@ -26,14 +26,16 @@ public class Protein : MonoBehaviour
     [SerializeField] Transform proteinPieceParent;
 
     // Animations
-    public RectTransform extraTransform;
+    [HideInInspector] public RectTransform extraTransform;
     Dictionary<string, object> commandArgs;
     ProteinAnimation preAnimation;
     ProteinAnimation postAnimation;
 
-    // Protein pieces
-    List<ProteinPiece> _proteinPieces = new();
-    public List<ProteinPiece> ProteinPieces { get => _proteinPieces; private set => _proteinPieces = value; }
+    // private list of all protein pieces
+    private readonly List<ProteinPiece> _proteinPieces = new();
+    // List of only active protein pieces
+    public List<ProteinPiece> ProteinPieces { get; private set; }
+
     public bool ProteinContainsPiece(string pieceName)
     {
         return ProteinPieces.Exists(p => p.LogicBlock.pieceName.Equals(pieceName));
@@ -60,6 +62,7 @@ public class Protein : MonoBehaviour
         extraTransform = temp.AddComponent<RectTransform>();
 
         AnimationInit();
+        PiecesInit();
     }
 
     public void OnInteractButton()
@@ -78,6 +81,19 @@ public class Protein : MonoBehaviour
                 BackToHome();
                 break;
         }
+    }
+
+    private void PiecesInit()
+    {
+        foreach (string pieceName in Application.settings.ProteinPieceNames)
+        {
+            ProteinPiece piece = Instantiate(proteinPiecePrefab, proteinPieceParent);
+            piece.SetLogicBlock(pieceName);
+            piece.gameObject.SetActive(false);
+            _proteinPieces.Add(piece);
+        }
+
+        ProteinPieces = new();
     }
 
     // ---==========---
@@ -120,12 +136,12 @@ public class Protein : MonoBehaviour
             {
                 name = "PostAction",
                 animationCommands = new()
-            {
-                new WaitCommand()
                 {
-                    waitLength = 0.75f
-                }
-            },
+                    new WaitCommand()
+                    {
+                        waitLength = 0.75f
+                    }
+                },
             };
         }
     }
@@ -243,8 +259,13 @@ public class Protein : MonoBehaviour
     {
         foreach (string logicBlockName in logicBlockNames)
         {
-            ProteinPiece piece = Instantiate(proteinPiecePrefab, proteinPieceParent);
-            piece.SetLogicBlock(logicBlockName);
+            ProteinPiece piece = _proteinPieces.Find(p => p.BlockName.Equals(logicBlockName));
+            if (piece == null)
+            {
+                Debug.LogError($"Could not find {logicBlockName} piece in proteinPieces!");
+                return;
+            }
+            piece.gameObject.SetActive(true);
             ProteinPieces.Add(piece);
         }
     }
@@ -261,7 +282,7 @@ public class Protein : MonoBehaviour
     {
         foreach (ProteinPiece piece in ProteinPieces)
         {
-            Destroy(piece.gameObject);
+            piece.gameObject.SetActive(false);
         }
         ProteinPieces.Clear();
     }
