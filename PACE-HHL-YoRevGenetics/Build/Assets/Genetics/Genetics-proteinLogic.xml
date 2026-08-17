@@ -18,7 +18,7 @@
         <blockType>IF</blockType>
         <pieceName>GG_Sword</pieceName>
         <action>kill</action>
-        <angle>302</angle>
+        <angle>50</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
@@ -39,7 +39,7 @@
         <blockType>NESTED</blockType>
         <pieceName>GG_Key</pieceName>
         <action>IF umbrella THEN fail ELSE win</action>
-        <angle>206</angle>
+        <angle>157</angle>
 		<markerID>0</markerID>
         <color>
             <r>0</r>
@@ -70,7 +70,7 @@
         <blockType>NESTED</blockType>
         <pieceName>GG_Halfkey_Square</pieceName>
         <action>IF circle THEN win ELSE fail</action>
-        <angle>153</angle>
+        <angle>213</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
@@ -78,7 +78,7 @@
         <blockType>IF</blockType>
         <pieceName>GG_Halfkey_Circle</pieceName>
         <action>fail</action>
-        <angle>153</angle>
+        <angle>213</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
     
@@ -86,28 +86,28 @@
 		<markerID>8</markerID>
         <blockType>ELSE</blockType>
         <pieceName>GG_Legs</pieceName>
-        <angle>90</angle>
+        <angle>270</angle>
 		<imageLayer>-1</imageLayer>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>9</markerID>
         <blockType>ELSE</blockType>
         <pieceName>GG_Tail</pieceName>
-        <angle>45</angle>
+        <angle>324</angle>
 		<imageLayer>-1</imageLayer>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>10</markerID>
         <blockType>ELSE</blockType>
         <pieceName>GG_Wrongshape</pieceName>
-        <angle>90</angle>
+        <angle>270</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
     <ProteinLogicBlock>
 		<markerID>11</markerID>
         <blockType>ELSE</blockType>
         <pieceName>GG_Key_Flipped</pieceName>
-        <angle>244</angle>
+        <angle>114</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
 </ProteinLogic>
