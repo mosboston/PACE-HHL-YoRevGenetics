@@ -13,6 +13,12 @@ public class ProteinPiece : MonoBehaviour
 
     public string BlockName { get => LogicBlock.pieceName; }
 
+    public float Rotation
+    {
+        get => transform.localEulerAngles.z;
+        set => transform.localEulerAngles = new(transform.localEulerAngles.x, transform.localEulerAngles.y, value);
+    }
+
     private void Awake()
     {
         image = GetComponent<ImageFromFile>();
@@ -21,6 +27,14 @@ public class ProteinPiece : MonoBehaviour
     public void SetLogicBlock(string logicBlockName)
     {
         LogicBlock = Application.settings.FindLogicBlock(logicBlockName);
+
+        if (LogicBlock == null)
+        {
+            Debug.LogError($"Logic block named {logicBlockName} could not be found!");
+            return;
+        }
+
+        Rotation = LogicBlock.angle.GetValueOrDefault();
 
         image.baseFileName = logicBlockName + imageFileExtension;
         image.Load(Application.language);

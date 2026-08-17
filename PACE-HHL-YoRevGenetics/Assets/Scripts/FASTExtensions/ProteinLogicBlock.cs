@@ -12,4 +12,5 @@ public class ProteinLogicBlock
     public float? angle = null;
     public Color color = Color.darkGray;
     public int markerID = -1;
+    public int imageLayer = 0;
 }

@@ -85,7 +85,10 @@ public class Protein : MonoBehaviour
 
     private void PiecesInit()
     {
-        foreach (string pieceName in Application.settings.ProteinPieceNames)
+        List<ProteinLogicBlock> allProteinLogic = (Application.settings.allProtienLogic as Dictionary<string, ProteinLogicBlock>).Values.ToList();
+        List<string> proteinLogicNames = allProteinLogic.OrderBy(b => b.imageLayer).Select(b => b.pieceName).ToList();
+
+        foreach (string pieceName in proteinLogicNames)
         {
             ProteinPiece piece = Instantiate(proteinPiecePrefab, proteinPieceParent);
             piece.SetLogicBlock(pieceName);
