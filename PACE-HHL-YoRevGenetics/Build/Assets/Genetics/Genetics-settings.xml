@@ -43,47 +43,51 @@
     <suffixErrorMessage />
   </udpConnectionSettings>
   <alignmentSettings>
-    <AlignmentRectTransformSettings name="ProteinWinSpot">
-      <position x="-19.40541" y="-15.18918" z="0" />
-      <rotation z="-3" />
-      <scale xyz="0" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="Result">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="0" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
     <AlignmentRectTransformSettings name="Ribosome">
       <position x="0" y="0" z="0" />
       <rotation z="0" />
       <scale xyz="0" />
       <size x="0" y="0" />
     </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="ReplayCaptureArea">
-      <position x="1.35141" y="122.973" z="0" />
-      <rotation z="0" />
-      <scale xyz="0" />
-      <size x="527.0269" y="378.3784" />
-    </AlignmentRectTransformSettings>
-    <AlignmentRectTransformSettings name="ConfirmationSite">
-      <position x="-15" y="-4" z="0" />
-      <rotation z="0" />
-      <scale xyz="-0.15" />
-      <size x="0" y="0" />
-    </AlignmentRectTransformSettings>
-    <AlignmentTransformSettings name="PieceParent">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="0.1297363" />
-    </AlignmentTransformSettings>
     <AlignmentRectTransformSettings name="BounceSpot">
       <position x="0" y="0" z="0" />
       <rotation z="0" />
       <scale xyz="0" />
       <size x="0" y="0" />
     </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ProteinWinSpot">
+      <position x="-130.375" y="-63.64072" z="0" />
+      <rotation z="-3" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentTransformSettings name="ReplayViewer">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+    </AlignmentTransformSettings>
+    <AlignmentTransformSettings name="PieceParent">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0.1297363" />
+    </AlignmentTransformSettings>
+    <AlignmentRectTransformSettings name="Result">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="0" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentRectTransformSettings name="ConfirmationSite">
+      <position x="11.57025" y="-8.688835" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.5" />
+      <size x="0" y="0" />
+    </AlignmentRectTransformSettings>
+    <AlignmentTransformSettings name="ProteinImage">
+      <position x="0" y="0" z="0" />
+      <rotation z="0" />
+      <scale xyz="-0.5040131" />
+    </AlignmentTransformSettings>
     <AlignmentTransformSettings name="Protein">
       <position x="0" y="-29.34" z="0" />
       <rotation z="0" />
@@ -95,16 +99,12 @@
       <scale xyz="0" />
       <size x="1500" y="725" />
     </AlignmentRectTransformSettings>
-    <AlignmentTransformSettings name="ReplayViewer">
-      <position x="0" y="0" z="0" />
+    <AlignmentRectTransformSettings name="ReplayCaptureArea">
+      <position x="1.35141" y="122.973" z="0" />
       <rotation z="0" />
       <scale xyz="0" />
-    </AlignmentTransformSettings>
-    <AlignmentTransformSettings name="ProteinImage">
-      <position x="0" y="0" z="0" />
-      <rotation z="0" />
-      <scale xyz="-0.5040131" />
-    </AlignmentTransformSettings>
+      <size x="527.0269" y="378.3784" />
+    </AlignmentRectTransformSettings>
   </alignmentSettings>
   <defaultAction>fail</defaultAction>
   <startBlockID>22</startBlockID>

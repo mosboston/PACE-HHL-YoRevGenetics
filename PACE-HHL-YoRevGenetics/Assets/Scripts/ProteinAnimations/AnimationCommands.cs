@@ -192,7 +192,7 @@ public class OrientToAngleCommand : TimedCommand
             // if animation curve is null, default to smooth step
             t = TimeCurve(t);
 
-            protein.Rotation = Mathf.Lerp(currentAngle, targetAngle, t);
+            protein.Rotation = Mathf.LerpAngle(currentAngle, targetAngle, t);
 
             time += Time.deltaTime;
             yield return null;

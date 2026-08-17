@@ -172,7 +172,7 @@ public class Protein : MonoBehaviour
         currentState = State.MidAction;
         onProteinActionStarted?.Invoke(animation.name, animation.resultText);
 
-        commandArgs[AnimationCommand.kAngle] = angle ?? 0;
+        commandArgs[AnimationCommand.kAngle] = -angle ?? 0;
 
         if (angle.HasValue)
         {

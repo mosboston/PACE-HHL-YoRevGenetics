@@ -69,7 +69,7 @@
 		<markerID>5</markerID>
         <blockType>NESTED</blockType>
         <pieceName>GG_Halfkey_Square</pieceName>
-        <action>IF circle THEN win ELSE fail</action>
+        <action>IF GG_Halfkey_Circle THEN win ELSE fail</action>
         <angle>213</angle>
 		<imageLayer>0</imageLayer>
     </ProteinLogicBlock>
