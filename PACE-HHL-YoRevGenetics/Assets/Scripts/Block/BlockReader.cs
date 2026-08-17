@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Application = FAST.Application;
 
 [RequireComponent(typeof(Collider2D))]
 public class BlockReader : MonoBehaviour
@@ -13,6 +14,7 @@ public class BlockReader : MonoBehaviour
     List<Block> readBlocks = new();
 
     bool reading = false;
+    public bool IsReading => reading;
 
     Animator anim;
     static readonly int BlockReadHash = Animator.StringToHash("BlockRead");
@@ -22,16 +24,19 @@ public class BlockReader : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public void AddBlock(Block block)
     {
-        if (!collision.gameObject.TryGetComponent(out Block block))
-            return;
-
         Debug.Log(block.blockName);
 
         if (readBlocks.Contains(block))
         {
             Debug.LogWarning("Attempted to read block that alraedy has been read");
+            return;
+        }
+
+        if (block.IsAll)
+        {
+            AddAllBlocks();
             return;
         }
 
@@ -73,4 +78,20 @@ public class BlockReader : MonoBehaviour
             }
         }
     }
+
+    public void AddAllBlocks()
+    {
+        onStartedReading?.Invoke();
+        onCompletedReading?.Invoke(Application.settings.ProteinPieceNames);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (!collision.gameObject.TryGetComponent(out Block block))
+            return;
+
+        AddBlock(block);
+    }
+
+
 }

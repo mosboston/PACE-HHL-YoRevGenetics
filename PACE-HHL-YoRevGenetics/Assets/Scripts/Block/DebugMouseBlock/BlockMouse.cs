@@ -5,7 +5,6 @@ using Application = FAST.Application;
 
 public class BlockMouse : Block
 {
-
     private Image image;
 
     protected override void Awake()
@@ -19,6 +18,14 @@ public class BlockMouse : Block
     {
         base.SetName(name);
 
+        if (IsAll)
+        {
+            Color color = Color.white;
+            color.a = 0.5f;
+            image.color = color;
+            return;
+        }
+
         if (Application.settings.allProtienLogic.TryGetValue(blockName, out ProteinLogicBlock logicBlock))
         {
             Color color = logicBlock.color;
@@ -27,6 +34,7 @@ public class BlockMouse : Block
         }
     }
 
+    // For mouse movement stuff
     Canvas parentCanvas;
     RectTransform parentCanvasRectTransform;
 

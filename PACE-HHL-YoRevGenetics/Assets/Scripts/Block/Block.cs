@@ -1,7 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Application = FAST.Application;
 
 public class Block : MonoBehaviour
 {
@@ -9,6 +6,7 @@ public class Block : MonoBehaviour
 
     public bool IsStart { get => blockName.Equals("START"); }
     public bool IsEnd { get => blockName.Equals("END"); }
+    public bool IsAll { get => blockName.Equals("DBG_ALLBLOCK"); }
 
     protected virtual void Awake()
     {

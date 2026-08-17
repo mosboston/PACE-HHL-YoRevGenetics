@@ -13,6 +13,8 @@ public class BlockMaker : MonoBehaviour
     {
         List<string> proteinPieceNames = Application.settings.ProteinPieceNames;
 
+        proteinPieceNames.Add("DBG_ALLBLOCK");
+
         for (int i = 0; i < proteinPieceNames.Count; i++)
         {
             Block newBlock = Instantiate(blockPrefab, transform);
