@@ -81,7 +81,9 @@ public class BlockReader : MonoBehaviour
 
     public void AddAllBlocks()
     {
+        reading = true;
         onStartedReading?.Invoke();
+        reading = false;
         onCompletedReading?.Invoke(Application.settings.ProteinPieceNames);
     }
 
