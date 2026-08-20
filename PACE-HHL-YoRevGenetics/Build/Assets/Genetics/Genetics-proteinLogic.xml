@@ -38,7 +38,7 @@
 		<markerID>3</markerID>
         <blockType>NESTED</blockType>
         <pieceName>GG_Key</pieceName>
-        <action>IF umbrella THEN fail ELSE win</action>
+        <action>IF GG_Umbrella THEN fail ELSE win</action>
         <angle>157</angle>
 		<markerID>0</markerID>
         <color>
